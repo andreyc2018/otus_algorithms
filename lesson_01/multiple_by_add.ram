@@ -5,6 +5,10 @@
 read 1 ; множитль 1
 read 2 ; множитель 2
 
+load 1
+sub 2
+jgtz loop
+
 load =0
 store 3 ; result
 
