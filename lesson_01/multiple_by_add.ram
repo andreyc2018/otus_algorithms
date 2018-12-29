@@ -1,5 +1,5 @@
 ; Умножение через сложение
-<input> 25 10
+<input> 10 25
 
 ; загрузка данных 
 read 1 ; множитль 1
@@ -7,8 +7,18 @@ read 2 ; множитель 2
 
 load 1
 sub 2
-jgtz loop
 
+jgtz begin
+
+; invert input
+load 2
+store 3
+load 1
+store 2
+load 3
+store 1
+
+begin:
 load =0
 store 3 ; result
 
