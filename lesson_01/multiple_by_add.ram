@@ -1,0 +1,21 @@
+; Умножение через сложение
+<input> 25 10
+
+; загрузка данных 
+read 1 ; множитль 1
+read 2 ; множитель 2
+
+load =0
+store 3 ; result
+
+loop:
+  load 3
+  add 1
+  store 3
+  load 2
+  sub =1
+  store 2
+  jgtz loop
+write 3
+Halt
+
