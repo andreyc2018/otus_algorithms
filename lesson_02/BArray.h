@@ -1,5 +1,5 @@
 /*********************************************************
-DArray<int>* a = new DArray<int>();
+BArray<int>* a = new BArray<int>();
 for (int i = 0; i<10; i++)
 	a->add(i, i*i);
 
@@ -8,7 +8,7 @@ for (int i = 0; i < 10; i++)
 *********************************************************/
 
 #pragma once
-template <class T> class DArray
+template <class T> class BArray
 {
 private:
 	int _size;
@@ -29,13 +29,13 @@ private:
 	}
 
 public:
-	DArray() 
+	BArray() 
 	{
 		_arr = nullptr;
 		_size = 0;
 	};
 
-	~DArray()
+	~BArray()
 	{
 		if (_arr != nullptr)
 			delete _arr;
@@ -48,7 +48,7 @@ public:
 
 	void add(int index, T element) {
 		if (_arr == nullptr || _size <= index) {
-			relocate(index + 1, index); // Add 100000 elements took 15846 milliseconds
+			relocate(index * 2, index); // Add 100000 elements took 2.49906 milliseconds
 		}
 		_arr[index] = element;
 	}
