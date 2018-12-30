@@ -1,6 +1,4 @@
 /*********************************************************
-Пример использования:
-
 DArray<int>* a = new DArray<int>();
 for (int i = 0; i<10; i++)
 	a->add(i, i*i);
@@ -20,7 +18,7 @@ private:
 	{
 		T* tmp = new T[newsize];
 
-		if (_arr != NULL)
+		if (_arr != nullptr)
 			for (int i = 0; i < _size; i++)
 				if (i<index)
 					tmp[i] = _arr[i];
@@ -33,13 +31,13 @@ private:
 public:
 	DArray() 
 	{
-		_arr = NULL;
+		_arr = nullptr;
 		_size = 0;
 	};
 
 	~DArray()
 	{
-		if (_arr != NULL)
+		if (_arr != nullptr)
 			delete _arr;
 	}
 
@@ -49,8 +47,10 @@ public:
 	}
 
 	void add(int index, T element) {
-		if (_arr == NULL || _size <= index)
-			relocate(index + 1, index);
+		if (_arr == nullptr || _size <= index) {
+			relocate(index * 2, index); // Add 100000 elements took 2.49906 milliseconds
+			//relocate(index + 1, index); // Add 100000 elements took 15846 milliseconds
+		}
 		_arr[index] = element;
 	}
 
