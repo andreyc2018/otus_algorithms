@@ -1,6 +1,6 @@
 ; Заготовка для алгоритма деления
 
-<input> 25 5
+<input> 17 5
 
 ; считываем данные 
 read 1 ; делимое
@@ -10,11 +10,24 @@ load =0
 store 3 ; result
 
 ; пишем код тут
+loop:
+  ; if op1 <= op2 exit loop
+  load 2
+  sub 1
+  jgtz done
+  ; else increment counter
+  load 3
+  add =1
+  store 3
+  ; substract operands
+  load 1
+  sub 2
+  store 1
+  jmp loop
 
+done:
 ; вывод результата
 write 3
 write 1
 halt
-
-
 
