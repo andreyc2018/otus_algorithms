@@ -1,4 +1,14 @@
 ; Заготовка для сортировки
+; r1 end of loop_1
+; r2 loop_1 counter
+; r3 end of loop_2
+; r4 loop_2 counter
+; r5 tmp for swap
+; offset for data is 10
+; sorted: 10 0 1 2 3 4 5 6 7 8 9
+; reversed: 10 9 8 7 6 5 4 3 2 1 0
+; unsorted: 10 5 7 4 2 8 6 1 9 0 3
+; original: 5 4 5 6 11 4
 <input> 5 4 5 6 11 4
 
 ; считываем количество
@@ -20,7 +30,67 @@ getdata:
   jmp getdata
 stop:
 
-   ; пишем код тут
+; пишем код тут
+load =10
+store 2 ; i (r2)
+load 1
+; N
+store 3
+; N - 1
+sub =1
+store 1
+loop_1:
+  ; prepare k
+  load 2
+  add =1
+  store 4 ; k (r4)
+
+loop_2:
+  ; load k-th element
+  load *4
+  ; compare with i-th element
+  sub *2
+  jgtz continue
+
+  ; swap
+  load *2
+  store 5
+  load *4
+  store *2
+  load 5
+  store *4
+
+continue:
+  ; increment k (r4)
+  load 4
+  add =1
+  store 4
+  ; if r3 <= r4
+  sub 3
+  jz end_loop_2
+  jgtz end_loop_2
+  ; exit the loop
+  ; else continue
+  jmp loop_2
+
+end_loop_2:
+
+  ; increment i (r2)
+  load 2
+  add =1
+  store 2
+  ; if r1 <= r2
+  sub 1
+  jz end_loop_1
+  jgtz end_loop_1
+  ; exit the loop
+  ; else continue
+  jmp loop_1
+end_loop_1:
+; restore N
+load 1
+add =1
+store 1
 
 load =10
 store 2 ; счетчик
@@ -36,9 +106,3 @@ outdata:
   jmp outdata
 exit:
 halt
-
-
-
-
-
-
