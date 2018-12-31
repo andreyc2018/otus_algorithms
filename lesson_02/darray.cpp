@@ -9,23 +9,25 @@ int main(int argc, char const *argv[])
 {
     int size = (argc > 1)? std::stoi(argv[1]) : 10;
 
-    DArray<int> a;
-
     stop_watch_t t;
-    t.start();
-    for (int i = 0; i<size; i++)
-	    a.add(i, i*i);
-    auto l = t.stop();
-    std::cout << "DArray: add " << size << " elements took " << l << " " << t.period() << "\n";
+
+    if (size <= 10000) {
+        DArray<int> a;
+        t.start();
+        for (int i = 0; i<size; i++)
+            a.add(i, i*i);
+        auto l = t.stop();
+        std::cout << "DArray: add " << size << " elements took " << l << " " << t.period() << "\n";
+    }
     
-    BArray<int> b;
+    BArray<int> b(100);
     t.start();
     for (int i = 0; i<size; i++)
 	    b.add(i, i*i);
-    l = t.stop();
+    auto l = t.stop();
     std::cout << "BArray: add " << size << " elements took " << l << " " << t.period() << "\n";
 
-    SBArray<int> sb(100);
+    SBArray<int> sb(100, 100);
     t.start();
     for (int i = 0; i<size; i++)
 	    sb.add(i, i*i);

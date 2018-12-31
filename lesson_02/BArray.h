@@ -31,10 +31,13 @@ private:
 	}
 
 public:
-	BArray() 
+	explicit BArray(int initial_size = 100) 
+		: _size(0)
+		, _arr(nullptr)
 	{
-		_arr = nullptr;
-		_size = 0;
+		if (initial_size > 0) {
+			relocate(initial_size, 0);
+		}
 	};
 
 	~BArray()

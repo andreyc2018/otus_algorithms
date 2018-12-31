@@ -1,3 +1,4 @@
+#pragma once
 /*********************************************************
 SBArray<int>* a = new SBArray<int>();
 for (int i = 0; i<10; i++)
@@ -7,64 +8,69 @@ for (int i = 0; i < 10; i++)
 	cout << a->get(i) << "\n";
 *********************************************************/
 
-#pragma once
+#include <algorithm>
+
 template <class T> class SBArray
 {
 private:
-	int _size;
-	T* _arr;
+	int size_;
+	T* arr_;
 	int block_size_;
+	int allocated_size_;
 
 	void relocate(int newsize, int index) 
 	{
 		T* tmp = new T[newsize];
 
-		if (_arr != nullptr) {
-			for (int i = 0; i < _size; i++) {
+		if (arr_ != nullptr) {
+			for (int i = 0; i < size_; i++) {
 				if (i<index)
-					tmp[i] = _arr[i];
+					tmp[i] = arr_[i];
 				else
-					tmp[i + 1] = _arr[i];
+					tmp[i + 1] = arr_[i];
 			}
 		}
-		_arr = tmp;
-		_size = newsize;
+		arr_ = tmp;
+		allocated_size_ = newsize;
 	}
 
 public:
-	explicit SBArray(int block_size) : block_size_(block_size)
+	explicit SBArray(int initial_size, int block_size) 
+		: size_(0)
+		, arr_(nullptr)
+		, block_size_(block_size)
+		, allocated_size_(0)
 	{
-		_arr = nullptr;
-		_size = 0;
+		relocate(initial_size, 0);
 	};
 
 	~SBArray()
 	{
-		if (_arr != nullptr)
-			delete _arr;
+		if (arr_ != nullptr)
+			delete arr_;
 	}
 
 	T get(int index)
 	{
-		return _arr[index];
+		return arr_[index];
 	}
 
 	void add(int index, T element) {
-		if (_arr == nullptr || _size <= index) {
-			relocate(index + block_size_, index); // SBArray: add 100000 elements took 174.332 milliseconds
+		if (arr_ == nullptr || allocated_size_ <= index) {
+			relocate(allocated_size_ + block_size_, index); // SBArray: add 100000 elements took 174.332 milliseconds
 		}
-		_arr[index] = element;
+		arr_[index] = element;
+		size_ = std::max(size_, index);
 	}
 
 	void set(int index, T element) 
 	{
-		_arr[index] = element;
+		arr_[index] = element;
 	}
 
 	int size() 
 	{
-		return _size;
+		return size_;
 	}
 
 };
-
