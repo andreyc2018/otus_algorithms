@@ -18,34 +18,30 @@ set(homework_VERSION_BUILD ${BUILD_NUM})
 project(async VERSION
         ${homework_VERSION_MAJOR}.${homework_VERSION_MINOR}.${homework_VERSION_BUILD})
 
-# find_package(Threads REQUIRED)
+find_package(Threads REQUIRED)
 
 configure_file(version.h.in version.h)
 
-set(GTEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../googletest)
+set(COURSE_DIR ${CMAKE_SOURCE_DIR}/..)
+set(GTEST_DIR ${COURSE_DIR}/googletest)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googletest/include
         ${GTEST_DIR}/googlemock/include)
 
 set(HEADER_FILES
-        DArray.h, BArray.h, SBArray.h)
+        DArray.h BArray.h DBArray.h)
 
-add_library(async SHARED
-        ${HEADER_FILES})
+add_executable(darray darray.cpp ${HEADER_FILES} ${CMAKE_CURRENT_BINARY_DIR}/version.h)
+# add_executable(test_version test_darray.cpp)
 
-add_executable(async_cli main.cpp docs/hw_assignment.md
-        async.h ${CMAKE_CURRENT_BINARY_DIR}/version.h)
-add_executable(test_version test_async.cpp)
+target_compile_options(darray PRIVATE -Wpedantic -Wall -Wextra)
+# target_compile_options(test_version PRIVATE -Wpedantic -Wall -Wextra)
 
-target_compile_options(async_cli PRIVATE -Wpedantic -Wall -Wextra)
-target_compile_options(async PRIVATE -Wpedantic -Wall -Wextra)
-target_compile_options(test_version PRIVATE -Wpedantic -Wall -Wextra)
+# target_link_libraries(async_cli async Threads::Threads)
+# target_link_libraries(test_version async gmock_main Threads::Threads)
 
-target_link_libraries(async_cli async Threads::Threads)
-target_link_libraries(test_version async gmock_main Threads::Threads)
-
-install(TARGETS async LIBRARY DESTINATION lib)
+# install(TARGETS async LIBRARY DESTINATION lib)
 
 set(CPACK_GENERATOR DEB)
 
@@ -56,23 +52,23 @@ set(CPACK_PACKAGE_VERSION_PATCH ${homework_VERSION_BUILD})
 
 include(CPack)
 
-enable_testing()
+# enable_testing()
 
-add_test(NAME test_version COMMAND test_version)
+# add_test(NAME test_version COMMAND test_version)
 
-add_subdirectory(example)
+# add_subdirectory(example)
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/sandbox/CMakeLists.txt)
-    add_subdirectory(sandbox EXCLUDE_FROM_ALL)
-endif()
+# if(EXISTS ${CMAKE_SOURCE_DIR}/sandbox/CMakeLists.txt)
+#     add_subdirectory(sandbox EXCLUDE_FROM_ALL)
+# endif()
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/googletest/CMakeLists.txt)
+if(EXISTS ${GTEST_DIR}/CMakeLists.txt)
     # Replace install() to do-nothing macro.
     macro(install)
     endmacro()
     # Include subproject (or any other CMake code) with "disabled" install().
     message(STATUS "Adding Google Test framework.")
-    add_subdirectory(googletest)
+    add_subdirectory(${GTEST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/googletest)
     # Restore original install() behavior.
     macro(install)
         _install(${ARGN})
@@ -82,33 +78,35 @@ endif()
 message(STATUS "Homework version
     ${homework_VERSION_MAJOR}.${homework_VERSION_MINOR}.${homework_VERSION_BUILD}")
 
-find_package(Doxygen)
-if (DOXYGEN_FOUND)
-    # set input and output files
-    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
-    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-
-    # request to configure the file
-    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/README.md
-            ${CMAKE_CURRENT_BINARY_DIR}/docs/README.md COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/hw_assignment.md
-            ${CMAKE_CURRENT_BINARY_DIR}/docs/hw_assignment.md COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/_config.yml
-            ${CMAKE_CURRENT_BINARY_DIR}/docs/_config.yml COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/parser_state_machine.uml
-            ${CMAKE_CURRENT_BINARY_DIR}/docs/parser_state_machine.uml COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/parser_state_machine.png
-            ${CMAKE_CURRENT_BINARY_DIR}/docs/html/parser_state_machine.png COPYONLY)
-
-    # note the option ALL which allows to build the docs together with the application
-    #add_custom_target(doc_doxygen ALL
-    add_custom_target(doc_doxygen
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM)
-else (DOXYGEN_FOUND)
-    message("Doxygen need to be installed to generate the doxygen documentation")
-endif (DOXYGEN_FOUND)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/docs)
+    find_package(Doxygen)
+    if (DOXYGEN_FOUND)
+        # set input and output files
+        set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+        set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+    
+        # request to configure the file
+        configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/README.md
+                ${CMAKE_CURRENT_BINARY_DIR}/docs/README.md COPYONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/hw_assignment.md
+                ${CMAKE_CURRENT_BINARY_DIR}/docs/hw_assignment.md COPYONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/_config.yml
+                ${CMAKE_CURRENT_BINARY_DIR}/docs/_config.yml COPYONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/parser_state_machine.uml
+                ${CMAKE_CURRENT_BINARY_DIR}/docs/parser_state_machine.uml COPYONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/parser_state_machine.png
+                ${CMAKE_CURRENT_BINARY_DIR}/docs/html/parser_state_machine.png COPYONLY)
+    
+        # note the option ALL which allows to build the docs together with the application
+        #add_custom_target(doc_doxygen ALL
+        add_custom_target(doc_doxygen
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM)
+    else(DOXYGEN_FOUND)
+        message("Doxygen need to be installed to generate the doxygen documentation")
+    endif(DOXYGEN_FOUND)
+endif()
 

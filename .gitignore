@@ -1,3 +1,4 @@
 *.ro
+**/build
 automation.html
 lesson_02/darray
