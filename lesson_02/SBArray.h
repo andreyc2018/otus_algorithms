@@ -1,5 +1,5 @@
 /*********************************************************
-DArray<int>* a = new DArray<int>();
+SBArray<int>* a = new SBArray<int>();
 for (int i = 0; i<10; i++)
 	a->add(i, i*i);
 
@@ -8,11 +8,12 @@ for (int i = 0; i < 10; i++)
 *********************************************************/
 
 #pragma once
-template <class T> class DArray
+template <class T> class SBArray
 {
 private:
 	int _size;
 	T* _arr;
+	int block_size_;
 
 	void relocate(int newsize, int index) 
 	{
@@ -31,13 +32,13 @@ private:
 	}
 
 public:
-	DArray() 
+	explicit SBArray(int block_size) : block_size_(block_size)
 	{
 		_arr = nullptr;
 		_size = 0;
 	};
 
-	~DArray()
+	~SBArray()
 	{
 		if (_arr != nullptr)
 			delete _arr;
@@ -50,7 +51,7 @@ public:
 
 	void add(int index, T element) {
 		if (_arr == nullptr || _size <= index) {
-			relocate(index + 1, index); // DArray: add 100000 elements took 16613.6 milliseconds
+			relocate(index + block_size_, index); // SBArray: add 100000 elements took 174.332 milliseconds
 		}
 		_arr[index] = element;
 	}

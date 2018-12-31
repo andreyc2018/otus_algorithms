@@ -18,12 +18,14 @@ private:
 	{
 		T* tmp = new T[newsize];
 
-		if (_arr != nullptr)
-			for (int i = 0; i < _size; i++)
+		if (_arr != nullptr) {
+			for (int i = 0; i < _size; i++) {
 				if (i<index)
 					tmp[i] = _arr[i];
 				else
 					tmp[i + 1] = _arr[i];
+			}
+		}
 		_arr = tmp;
 		_size = newsize;
 	}
@@ -48,7 +50,7 @@ public:
 
 	void add(int index, T element) {
 		if (_arr == nullptr || _size <= index) {
-			relocate(index * 2, index); // Add 100000 elements took 2.49906 milliseconds
+			relocate(index * 2, index); // BArray: add 100000 elements took 0.880762 milliseconds
 		}
 		_arr[index] = element;
 	}
