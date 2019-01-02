@@ -6,6 +6,10 @@
 read 1 ; делимое
 read 2 ; делитель
 
+; is dividing by 0
+load 2
+jz error
+
 load =0
 store 3 ; result
 
@@ -29,5 +33,6 @@ done:
 ; вывод результата
 write 3
 write 1
+error:
 halt
 
