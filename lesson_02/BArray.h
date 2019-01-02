@@ -57,7 +57,7 @@ public:
 
 	void add(int index, T element) {
 		if (arr_ == nullptr || allocated_size_ <= index) {
-			relocate(allocated_size_ + block_size_, index); // BArray: add 100000 elements took 174.332 milliseconds
+			relocate(index + block_size_, index);
 		}
 		arr_[index] = element;
 		size_ = std::max(size_, index);
