@@ -1,8 +1,14 @@
 #!/bin/sh
 
+RL=`which greadlink`
+if [ -z "$RL" ]
+then
+    RL=`which readlink`
+fi
+
 if [ -n "$1" ]
 then
-    input=`readlink -e $1`
+    input=`$RL -e $1`
     if [ -z "$input" ]
     then
         echo "File not found: $1"
