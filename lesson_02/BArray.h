@@ -22,6 +22,7 @@ private:
 	{
 		T* tmp = new T[newsize];
 
+		// DO we need to copy all data?
 		if (arr_ != nullptr) {
 			for (int i = 0; i < size_; i++) {
 				if (i<index)
