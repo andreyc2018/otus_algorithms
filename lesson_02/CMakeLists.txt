@@ -33,13 +33,15 @@ set(HEADER_FILES
         DArray.h BArray.h DBArray.h)
 
 add_executable(darray darray.cpp ${HEADER_FILES} ${CMAKE_CURRENT_BINARY_DIR}/version.h)
-# add_executable(test_version test_darray.cpp)
+add_executable(test_priority_queue test_priority_queue.cpp)
+add_executable(test_barray test_barray.cpp)
 
 target_compile_options(darray PRIVATE -Wpedantic -Wall -Wextra)
-# target_compile_options(test_version PRIVATE -Wpedantic -Wall -Wextra)
+target_compile_options(test_priority_queue PRIVATE -Wpedantic -Wall -Wextra)
+target_compile_options(test_barray PRIVATE -Wpedantic -Wall -Wextra)
 
-# target_link_libraries(async_cli async Threads::Threads)
-# target_link_libraries(test_version async gmock_main Threads::Threads)
+target_link_libraries(test_priority_queue gmock_main Threads::Threads)
+target_link_libraries(test_barray gmock_main Threads::Threads)
 
 # install(TARGETS async LIBRARY DESTINATION lib)
 
@@ -52,9 +54,10 @@ set(CPACK_PACKAGE_VERSION_PATCH ${homework_VERSION_BUILD})
 
 include(CPack)
 
-# enable_testing()
+enable_testing()
 
-# add_test(NAME test_version COMMAND test_version)
+add_test(NAME priority_queue COMMAND test_priority_queue)
+add_test(NAME barray COMMAND test_barray)
 
 # add_subdirectory(example)
 

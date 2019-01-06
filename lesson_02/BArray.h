@@ -10,6 +10,8 @@ for (int i = 0; i < 10; i++)
 
 #include <algorithm>
 
+const size_t DefaultBlock = 1000;
+
 template <class T> class BArray
 {
 private:
@@ -36,19 +38,22 @@ private:
 	}
 
 public:
-	explicit BArray(int initial_size, int block_size) 
+	explicit BArray(int block_size = DefaultBlock)
 		: size_(0)
 		, arr_(nullptr)
 		, block_size_(block_size)
 		, allocated_size_(0)
 	{
-		relocate(initial_size, 0);
+		if (block_size_ < 1) {
+			block_size_ = 1;
+		}
+		relocate(block_size_, 0);
 	};
 
 	~BArray()
 	{
 		if (arr_ != nullptr)
-			delete arr_;
+			delete [] arr_;
 	}
 
 	T get(int index)
@@ -61,7 +66,7 @@ public:
 			relocate(index + block_size_, index);
 		}
 		arr_[index] = element;
-		size_ = std::max(size_, index);
+		size_ = std::max(size_, index + 1);
 	}
 
 	void set(int index, T element) 
@@ -74,4 +79,8 @@ public:
 		return size_;
 	}
 
+	int allocated_size()
+	{
+		return allocated_size_;
+	}
 };

@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
     auto l = t.stop();
     std::cout << "DBArray: add " << size << " elements took " << l << " " << t.period() << "\n";
 
-    BArray<int> sb(100, 100);
+    BArray<int> sb;
     t.start();
     for (int i = 0; i<size; i++)
 	    sb.add(i, i*i);

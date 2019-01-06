@@ -6,56 +6,43 @@ class IArray
 {
   private:
     int _size;
-    BArray<BArray<T>>* _arr;
+    BArray<BArray<T>>* arr_;
     int block_size_;
 
-    void relocate(int newsize, int index)
+    void relocate()
     {
-        T* tmp = new T[newsize];
-
-        if (_arr != nullptr) {
-            for (int i = 0; i < _size; i++) {
-                if (i < index)
-                    tmp[i] = _arr[i];
-                else
-                    tmp[i + 1] = _arr[i];
-            }
-        }
-        _arr = tmp;
-        _size = newsize;
+        arr_.add(0, BArray<T>(block_size));
     }
 
   public:
     explicit IArray(int block_size) : block_size_(block_size)
     {
-        _arr = nullptr;
-        _size = 0;
+        arr_ = new BArray<BArray<T>>(block_size_);
+        arr_.add(0, BArray<T>(block_size));
     };
 
     ~IArray()
     {
-        if (_arr != nullptr)
-            delete _arr;
+        if (arr_ != nullptr)
+            delete [] arr_;
     }
-
-    T get(int index) { return _arr[index]; }
 
     void add(int index, T element)
     {
-        if (_arr == nullptr || size() <= index) {
-            relocate(); // IArray: add 100000 elements took 174.332 milliseconds
+        if (size() <= index) {
+            relocate();
         }
-        _arr[index] = element;
+        arr_[index] = element;
     }
 
-    void set(int index, T element) { _arr[index] = element; }
+    void set(int index, T element) { arr_[index] = element; }
 
-    int size() { return _arr->size() * block_size_; }
+    int size() { return arr_->size() * block_size_; }
 
-    T at(int index)
+    T get(int index)
     {
         int index1 = index / block_size_;
         int index2 = index % block_size_;
-        return (T)_arr.get(index1).get(index2);
+        return (T)arr_.get(index1).get(index2);
     }
 };
