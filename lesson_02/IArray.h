@@ -11,15 +11,15 @@ class IArray
 
     void relocate()
     {
-        arr_.add(0, BArray<T>(block_size));
+        arr_->add(0, BArray<T>(block_size_));
     }
 
   public:
-    explicit IArray(int block_size) : block_size_(block_size)
+    explicit IArray(int block_size = DefaultBlock) : block_size_(block_size)
     {
         arr_ = new BArray<BArray<T>>(block_size_);
-        arr_.add(0, BArray<T>(block_size));
-    };
+        arr_->add(0, BArray<T>(block_size));
+    }
 
     ~IArray()
     {
@@ -32,7 +32,9 @@ class IArray
         if (size() <= index) {
             relocate();
         }
-        arr_[index] = element;
+        int index1 = index / block_size_;
+        int index2 = index % block_size_;
+        arr_->get(index1).add(index2, element);
     }
 
     void set(int index, T element) { arr_[index] = element; }
@@ -43,6 +45,6 @@ class IArray
     {
         int index1 = index / block_size_;
         int index2 = index % block_size_;
-        return (T)arr_.get(index1).get(index2);
+        return arr_->get(index1).get(index2);
     }
 };

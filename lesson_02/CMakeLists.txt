@@ -38,15 +38,18 @@ add_executable(darray darray.cpp ${HEADER_FILES} ${CMAKE_CURRENT_BINARY_DIR}/ver
 add_executable(test_priority_queue test_priority_queue.cpp PriorityQueue.h)
 add_executable(test_barray test_barray.cpp BArray.h)
 add_executable(test_olist test_olist.cpp OList.h)
+add_executable(test_iarray test_iarray.cpp IArray.h)
 
 target_compile_options(darray PRIVATE -Wpedantic -Wall -Wextra)
 target_compile_options(test_priority_queue PRIVATE -Wpedantic -Wall -Wextra)
 target_compile_options(test_barray PRIVATE -Wpedantic -Wall -Wextra)
 target_compile_options(test_olist PRIVATE -Wpedantic -Wall -Wextra)
+target_compile_options(test_iarray PRIVATE -Wpedantic -Wall -Wextra)
 
 target_link_libraries(test_priority_queue gmock_main Threads::Threads)
 target_link_libraries(test_barray gmock_main Threads::Threads)
 target_link_libraries(test_olist gmock_main Threads::Threads)
+target_link_libraries(test_iarray gmock_main Threads::Threads)
 
 # install(TARGETS async LIBRARY DESTINATION lib)
 
