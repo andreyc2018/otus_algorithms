@@ -1,6 +1,6 @@
-/*********************************************************
-Пример использования:
+#pragma once
 
+/*********************************************************
 OList<int>* a = new OList<int>();
 for (int i = 0; i < 10; i++)
 	a->add(i*i);
@@ -13,7 +13,6 @@ while (li != NULL)
 }
 *********************************************************/
 
-#pragma once
 template<class T> class ListItem
 {
 private:
@@ -39,7 +38,6 @@ public:
 };
 
 
-#pragma once
 template<class T> class OList
 {
 private:
