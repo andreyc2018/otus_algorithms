@@ -24,7 +24,7 @@ private:
 	{
         T* tmp = new T[newsize]();
 
-		// DO we need to copy all data?
+        // DO we need to copy all data? Why not?
 		if (arr_ != nullptr) {
 			for (int i = 0; i < size_; i++) {
 				if (i<index)
@@ -33,6 +33,11 @@ private:
 					tmp[i + 1] = arr_[i];
 			}
 		}
+		
+		if (arr_) {
+			delete [] arr_;
+		}
+
 		arr_ = tmp;
 		allocated_size_ = newsize;
 	}

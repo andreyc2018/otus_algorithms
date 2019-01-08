@@ -1,51 +1,103 @@
 #pragma once
 
 #include "BArray.h"
+#include "OList.h"
 #include <stddef.h>
 
+constexpr int DefaultMaxPriorities = 10;
+
 template<typename T>
-class Queue
+class Queue : public OList<T>
 {
-    public:
-        void enqueue(int priority, T item)
-        {
+  public:
+    using base = OList<T>;
 
-        }
+    Queue() : base() {}
+    ~Queue() { base::destroy(); }
 
-        T dequeue()
-        {
+    void enqueue(T item)
+    {
+        base::insert(item);
+    }
 
-        }
-
-    private:
-        T* 
+    T dequeue()
+    {
+        T tmp = base::tail();
+        base::pop_tail();
+        return tmp;
+    }
 };
 
 template<typename T>
 class PriorityQueue
 {
-    public:
-        PriorityQueue(int max_priorities)
-            : max_priorities_(max_priorities)
-        {
+  public:
+    using queue_t = Queue<T>;
+    using queue_ptr = queue_t*;
+    using pqueue_t = BArray<queue_ptr>;
 
+    explicit PriorityQueue(int max_priorities = DefaultMaxPriorities)
+      : max_priorities_(max_priorities)
+      , size_(0)
+      , highest_(0)
+      , queue_(max_priorities+1)
+    {}
+
+    ~PriorityQueue()
+    {
+        for (int i = 0; i <= max_priorities_; ++i) {
+            queue_ptr q = queue_.get(i);
+            delete q;
+        }
+    }
+
+    void enqueue(int priority, T item)
+    {
+        if (priority >= 0 && priority <= max_priorities_) {
+            queue_ptr q = queue_.get(priority);
+            if (q == nullptr) {
+                q = new queue_t;
+                queue_.set(priority, q);
+            }
+            q->enqueue(item);
+            size_++;
+            highest_ = std::max(highest_, priority);
+        }
+    }
+
+    T dequeue()
+    {
+        if (size_ == 0) {
+            return T();
         }
 
-        void enqueue(int priority, T item)
-        {
-
+        queue_ptr q = highest_queue();
+        if (q == nullptr || q->size() == 0) {
+            return T();
         }
 
-        T dequeue()
-        {
+        size_--;
+        return q->dequeue();
+    }
 
+    size_t size() { return size_; }
+    size_t highest() { return highest_; }
+
+  private:
+    int max_priorities_;
+    int size_;
+    int highest_;
+    pqueue_t queue_;
+
+    queue_ptr highest_queue()
+    {
+        for (int i = highest_; i >= 0; --i) {
+            queue_ptr q = queue_.get(i);
+            if (q != nullptr && q->size() > 0) {
+                return q;
+            }
         }
+        return nullptr;
+    }
 
-        size_t size()
-        {
-            return -1;
-        }
-
-    private:
-        int max_priorities_;
 };
