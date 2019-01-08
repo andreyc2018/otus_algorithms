@@ -22,7 +22,7 @@ private:
 
 	void relocate(int newsize, int index) 
 	{
-		T* tmp = new T[newsize];
+        T* tmp = new T[newsize]();
 
 		// DO we need to copy all data?
 		if (arr_ != nullptr) {
@@ -48,7 +48,7 @@ public:
 			block_size_ = 1;
 		}
 		relocate(block_size_, 0);
-	};
+    }
 
 	~BArray()
 	{
