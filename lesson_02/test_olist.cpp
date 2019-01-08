@@ -2,6 +2,30 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
+TEST(OList, Iterate)
+{
+    OList<int> a;
+    for (int i = 0; i < 10; i++)
+            a.add(i*i);
+
+    auto node = a.get_head();
+    for (int i = 0; node != nullptr; ++i) {
+        EXPECT_EQ(i*i, node->get());
+        node = node->getNext();
+    }
+
+    node = a.get_tail();
+    for (int i = 9; node != nullptr; --i) {
+        EXPECT_EQ(i*i, node->get());
+        node = node->getPrev();
+    }
+
+    for (int i = 0; !a.empty(); ++i) {
+        EXPECT_EQ(i*i, a.head());
+        a.pop_head();
+    }
+}
+
 TEST(OList, AddRemoveItems)
 {
     OList<int> l;

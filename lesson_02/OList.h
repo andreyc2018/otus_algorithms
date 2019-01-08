@@ -4,11 +4,10 @@ OList<int>* a = new OList<int>();
 for (int i = 0; i < 10; i++)
         a->add(i*i);
 
-ListItem<int>* li = a->head();
-while (li != NULL)
+while (!a.empty())
 {
-        cout << li->get() << "\n";
-        li = li->getNext();
+        cout << a->head() << "\n";
+        a->pop_head();;
 }
 *********************************************************/
 
@@ -79,6 +78,10 @@ class OList
     }
 
     int size() const { return size_; }
+    bool empty() const { return head_ == nullptr; }
+
+    node_ptr get_head() { return head_; }
+    node_ptr get_tail() { return tail_; }
 
     void pop_head()
     {

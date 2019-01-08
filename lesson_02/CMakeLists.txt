@@ -32,7 +32,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googlemock/include)
 
 set(HEADER_FILES
-        DArray.h BArray.h DBArray.h)
+        DArray.h BArray.h DBArray.h stopwatch.h)
 
 add_executable(darray darray.cpp ${HEADER_FILES} ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 add_executable(test_priority_queue test_priority_queue.cpp PriorityQueue.h)
