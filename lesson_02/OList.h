@@ -1,5 +1,4 @@
 #pragma once
-
 /*********************************************************
 OList<int>* a = new OList<int>();
 for (int i = 0; i < 10; i++)
@@ -22,7 +21,7 @@ private:
 public:
 	ListItem(T item) {
 		_item = item;
-		_next = NULL;
+        _next = nullptr;
 	}
 
 	T get() {
@@ -47,14 +46,14 @@ private:
 public:
 	OList()
 	{
-		_head = NULL;
-		_tail = NULL;
+        _head = nullptr;
+        _tail = nullptr;
 
-	};
+    }
 
 	~OList()
 	{
-	};
+    }
 
 	ListItem<T>* head() {
 		return _head;
@@ -62,7 +61,7 @@ public:
 
 	void add(T item) {
 		ListItem<T>* li = new ListItem<T>(item);
-		if (_head == NULL) {
+        if (_head == nullptr) {
 			_head = li;
 			_tail = li;
 		}

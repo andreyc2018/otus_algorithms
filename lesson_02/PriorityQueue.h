@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BArray.h"
 #include <stddef.h>
 
 template<typename T>
