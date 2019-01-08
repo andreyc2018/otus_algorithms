@@ -2,12 +2,19 @@
 /*********************************************************
 OList<int>* a = new OList<int>();
 for (int i = 0; i < 10; i++)
-        a->add(i*i);
+    a->add(i*i);
 
-while (!a.empty())
+auto node = a.get_head();
+while (node != nullptr)
 {
-        cout << a->head() << "\n";
-        a->pop_head();;
+    cout << node->get() << "\n";
+    node = node->getNext();
+}
+
+while (!a->empty())
+{
+    cout << a->head() << "\n";
+    a->pop_head();
 }
 *********************************************************/
 
