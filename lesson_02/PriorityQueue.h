@@ -37,15 +37,14 @@ class PriorityQueue
     using pqueue_t = BArray<queue_ptr>;
 
     explicit PriorityQueue(int max_priorities = DefaultMaxPriorities)
-      : max_priorities_(max_priorities)
-      , size_(0)
+      : size_(0)
       , highest_(0)
       , queue_(max_priorities+1)
     {}
 
     ~PriorityQueue()
     {
-        for (int i = 0; i <= max_priorities_; ++i) {
+        for (int i = 0; i < queue_.size(); ++i) {
             queue_ptr q = queue_.get(i);
             delete q;
         }
@@ -53,7 +52,10 @@ class PriorityQueue
 
     void enqueue(int priority, T item)
     {
-        if (priority >= 0 && priority <= max_priorities_) {
+        if (priority >= queue_.size()) {
+            queue_.add(priority, nullptr);
+        }
+        if (priority >= 0 && priority < queue_.size()) {
             queue_ptr q = queue_.get(priority);
             if (q == nullptr) {
                 q = new queue_t;
@@ -84,7 +86,6 @@ class PriorityQueue
     size_t highest() { return highest_; }
 
   private:
-    int max_priorities_;
     int size_;
     int highest_;
     pqueue_t queue_;

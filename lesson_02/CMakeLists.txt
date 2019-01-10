@@ -68,6 +68,7 @@ enable_testing()
 add_test(NAME priority_queue COMMAND test_priority_queue)
 add_test(NAME barray COMMAND test_barray)
 add_test(NAME olist COMMAND test_olist)
+add_test(NAME iarray COMMAND test_iarray)
 
 # Add googltest
 if(EXISTS ${GTEST_DIR}/CMakeLists.txt)

@@ -21,10 +21,10 @@ TEST(PriorityQueue, Enqueue)
     EXPECT_EQ(7, pq.size());
 
     for (int i = 0; i < 12; ++i) {
-        pq.enqueue(i, i);
+        pq.enqueue(i, i*i);
     }
-    EXPECT_EQ(10, pq.highest());
-    EXPECT_EQ(18, pq.size());
+    EXPECT_EQ(11, pq.highest());
+    EXPECT_EQ(19, pq.size());
 }
 
 TEST(PriorityQueue, EnqueueDequeue)
@@ -83,12 +83,14 @@ TEST(PriorityQueue, PriorityEnqueueDequeue)
 
     EXPECT_EQ(0, pq.size());
 
-    pq.enqueue(10, 1);
-    pq.enqueue(10, 2);
     pq.enqueue(1, 99);
+    pq.enqueue(10, 2);
+    pq.enqueue(139, 1);
+    EXPECT_EQ(3, pq.size());
     EXPECT_EQ(1, pq.dequeue());
     EXPECT_EQ(2, pq.dequeue());
     EXPECT_EQ(99, pq.dequeue());
+    EXPECT_EQ(139, pq.highest());
 }
 
 TEST(PriorityQueue, SingleEnqueueDequeue)
