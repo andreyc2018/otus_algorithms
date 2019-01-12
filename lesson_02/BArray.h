@@ -43,11 +43,19 @@ class BArray
         allocated_size_ = newsize;
     }
 
-    void shift(int index)
+    void shift_right(int index)
     {
         for (int i = size_; i > index; --i) {
             arr_[i] = arr_[i-1];
         }
+    }
+
+    void shift_left(int index)
+    {
+        for (int i = index; i < size_-1; ++i) {
+            arr_[i] = arr_[i+1];
+        }
+        arr_[size_-1] = T();
     }
 
     int get_new_size(int index)
@@ -85,7 +93,7 @@ class BArray
             relocate(new_size, index);
         }
         else {
-            shift(index);
+            shift_right(index);
         }
         arr_[index] = element;
         size_ = std::max(size_ + 1, index + 1);
@@ -95,9 +103,11 @@ class BArray
 
     void remove(int index)
     {
-        if (index < 0 && index >= allocated_size_) {
+        if (index < 0 || index >= size_) {
             return;
         }
+        shift_left(index);
+        size_--;
     }
 
     int size() { return size_; }

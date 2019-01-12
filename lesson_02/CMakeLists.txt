@@ -17,7 +17,7 @@ set(homework_VERSION_MAJOR 2)
 set(homework_VERSION_MINOR 0)
 set(homework_VERSION_BUILD ${BUILD_NUM})
 
-project(async VERSION
+project(algorithms_lesson-02 VERSION
         ${homework_VERSION_MAJOR}.${homework_VERSION_MINOR}.${homework_VERSION_BUILD})
 
 find_package(Threads REQUIRED)
