@@ -62,9 +62,7 @@ set(CPACK_PACKAGE_VERSION_MINOR ${homework_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${homework_VERSION_BUILD})
 
 include(CPack)
-
 enable_testing()
-
 add_test(NAME priority_queue COMMAND test_priority_queue)
 add_test(NAME barray COMMAND test_barray)
 add_test(NAME olist COMMAND test_olist)
