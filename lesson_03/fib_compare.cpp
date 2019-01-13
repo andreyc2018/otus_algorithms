@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace boost::multiprecision;
+using uint2048_t = number<cpp_int_backend<2048, 2048, unsigned_magnitude, unchecked, void>>;
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +13,8 @@ int main(int argc, char *argv[])
     std::ifstream f(fname);
     if (f.good()) {
         std::cout << "reading from " << fname << "\n";
-        uint1024_t n;
+        uint2048_t n;
+
         std::string expected;
         while (f >> n >> expected) {
             auto r = fib(n);

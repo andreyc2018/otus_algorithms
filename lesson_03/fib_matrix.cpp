@@ -3,10 +3,12 @@
 #include <limits>
 #include <iostream>
 
+using namespace boost::multiprecision;
+using uint2048_t = number<cpp_int_backend<2048, 2048, unsigned_magnitude, unchecked, void>>;
+
 int main(int argc, char** argv)
 {
-    using namespace boost::multiprecision;
-    int1024_t n = (argc > 1)? std::stoi(argv[1]) : 0;
+    uint2048_t n = (argc > 1)? std::stoi(argv[1]) : 0;
     auto r = fib(n);
     std::cout << "fib(" << n << ")     = " << r << "\n";
     std::cout << "Max uint64_t = " << std::numeric_limits<uint64_t>::max() << "\n";
