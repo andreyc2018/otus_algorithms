@@ -32,7 +32,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googletest/include
         ${GTEST_DIR}/googlemock/include)
 
-find_package(Boost 1.45.0 COMPONENTS system)
+find_package(Boost 1.53.0)
 
 add_executable(test_power test_power.cpp power.h)
 target_compile_options(test_power PRIVATE -Wpedantic -Wall -Wextra)
@@ -46,7 +46,7 @@ add_executable(power_compare power_compare.cpp power.h)
 target_compile_options(power_compare PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(power_compare Threads::Threads)
 
-add_executable(fib_matrix fib_matrix.cpp fib_matrix.h power.h ubigint.h)
+add_executable(fib_matrix fib_matrix.cpp fib_matrix.h power.h)
 target_compile_options(fib_matrix PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(fib_matrix Threads::Threads)
 
@@ -54,9 +54,9 @@ add_executable(test_fib_matrix test_fib_matrix.cpp fib_matrix.h power.h)
 target_compile_options(test_fib_matrix PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_fib_matrix gmock_main Threads::Threads)
 
-add_executable(test_ubigint test_ubigint.cpp ubigint.h)
-target_compile_options(test_ubigint PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_ubigint  gmock_main Threads::Threads)
+add_executable(fib_compare fib_compare.cpp fib_matrix.h power.h)
+target_compile_options(fib_compare PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(fib_compare gmock_main Threads::Threads)
 
 include(CPack)
 enable_testing()
