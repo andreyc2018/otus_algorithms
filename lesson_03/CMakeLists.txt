@@ -32,6 +32,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googletest/include
         ${GTEST_DIR}/googlemock/include)
 
+find_package(Boost 1.45.0 COMPONENTS system)
+
 add_executable(test_power test_power.cpp power.h)
 target_compile_options(test_power PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_power gmock_main Threads::Threads)
