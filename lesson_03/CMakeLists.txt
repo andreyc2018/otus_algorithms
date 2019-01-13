@@ -17,7 +17,7 @@ set(homework_VERSION_MAJOR 3)
 set(homework_VERSION_MINOR 0)
 set(homework_VERSION_BUILD ${BUILD_NUM})
 
-project(async VERSION
+project(algorithms_lesson-03 VERSION
         ${homework_VERSION_MAJOR}.${homework_VERSION_MINOR}.${homework_VERSION_BUILD})
 
 find_package(Threads REQUIRED)
@@ -44,13 +44,17 @@ add_executable(power_compare power_compare.cpp power.h)
 target_compile_options(power_compare PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(power_compare Threads::Threads)
 
-add_executable(fib_matrix fib_matrix.cpp fib_matrix.h power.h)
+add_executable(fib_matrix fib_matrix.cpp fib_matrix.h power.h ubigint.h)
 target_compile_options(fib_matrix PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(fib_matrix Threads::Threads)
 
 add_executable(test_fib_matrix test_fib_matrix.cpp fib_matrix.h power.h)
 target_compile_options(test_fib_matrix PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_fib_matrix gmock_main Threads::Threads)
+
+add_executable(test_ubigint test_ubigint.cpp ubigint.h)
+target_compile_options(test_ubigint PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(test_ubigint  gmock_main Threads::Threads)
 
 include(CPack)
 enable_testing()
