@@ -1,4 +1,4 @@
-#include "insertion_sort.h"
+#include "sort_algorithms.h"
 #include <random>
 #include <algorithm>
 #include <iterator>

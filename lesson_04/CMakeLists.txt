@@ -32,13 +32,13 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googletest/include
         ${GTEST_DIR}/googlemock/include)
 
-add_executable(test_insertion_sort test_insertion_sort.cpp insertion_sort.h)
-target_compile_options(test_insertion_sort PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_insertion_sort gmock_main Threads::Threads)
+add_executable(test_sort_algorithms test_sort_algorithms.cpp sort_algorithms.h)
+target_compile_options(test_sort_algorithms PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(test_sort_algorithms gmock_main Threads::Threads)
 
 include(CPack)
 enable_testing()
-add_test(NAME power COMMAND test_insertion_sort)
+add_test(NAME power COMMAND test_sort_algorithms)
 
 # Add googltest
 if(EXISTS ${GTEST_DIR}/CMakeLists.txt)
