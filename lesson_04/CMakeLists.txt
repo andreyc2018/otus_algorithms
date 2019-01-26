@@ -26,8 +26,6 @@ configure_file(version.h.in version.h)
 
 set(COURSE_DIR ${CMAKE_SOURCE_DIR}/..)
 set(GTEST_DIR ${COURSE_DIR}/googletest)
-set(CELERO_DIR ${COURSE_DIR}/Celero)
-set(GBM_DIR ${COURSE_DIR}/benchmark)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${COURSE_DIR}/include
@@ -50,20 +48,6 @@ if(EXISTS ${GTEST_DIR}/CMakeLists.txt)
     # Include subproject (or any other CMake code) with "disabled" install().
     message(STATUS "Adding Google Test framework.")
     add_subdirectory(${GTEST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/googletest)
-    # Restore original install() behavior.
-    macro(install)
-        _install(${ARGN})
-    endmacro()
-endif()
-
-# Add benchmark
-if(EXISTS ${GBM_DIR}/CMakeLists.txt)
-    # Replace install() to do-nothing macro.
-    macro(install)
-    endmacro()
-    # Include subproject (or any other CMake code) with "disabled" install().
-    message(STATUS "Adding Google benchmark framework.")
-    add_subdirectory(${GBM_DIR} ${CMAKE_CURRENT_BINARY_DIR}/benchmark)
     # Restore original install() behavior.
     macro(install)
         _install(${ARGN})
