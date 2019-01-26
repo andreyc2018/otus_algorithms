@@ -1,9 +1,11 @@
 #include "sort_algorithms.h"
 #include "stopwatch.h"
+#include "fib_matrix.h"
 #include <random>
 #include <algorithm>
 #include <iterator>
 #include <iostream>
+#include <deque>
 #include <gtest/gtest.h>
 
 namespace {
@@ -122,7 +124,6 @@ size_t knuth_interval(size_t size)
 {
     size_t interval = 1;
 
-    /* calculate interval*/
     while (interval < size/3) {
         interval = interval * 3 + 1;
     }
@@ -131,17 +132,18 @@ size_t knuth_interval(size_t size)
 
 struct ShellSortInfo
 {
-    size_t interval;
+    std::deque<size_t> gaps;
     std::string msg;
 };
 
-void run_unsorted(size_t interval, std::string msg)
+template <typename G>
+void run_unsorted(G& gaps, std::string msg)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
     create_random_array(array, expected_array, ArraySize);
 
-    timed_run([&array, interval]() { shell_sort(array, interval); }, msg);
+    timed_run([&array, gaps]() { shell_sort(array, gaps); }, msg);
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
@@ -149,35 +151,93 @@ void run_unsorted(size_t interval, std::string msg)
 }
 
 static std::vector<ShellSortInfo> info {
-    { 2, "Shell sort: unsorted, interval 2" },
-    { 100, "Shell sort: unsorted, interval 100" },
-    { 1000, "Shell sort: unsorted, interval 1000" },
-    { knuth_interval(ArraySize), "Shell sort: unsorted, Knuth interval" }
+    { {}, "Shell sort: unsorted, Ciura:" },
+    { {}, "Shell sort: unsorted, Simple:" },
+    { {}, "Shell sort: unsorted, Hibbard:" },
+    { {}, "Shell sort: unsorted, Knuth:" },
+    { {}, "Shell sort: unsorted, Fib:" }
 };
 
-TEST(ShellSort, Unsorted)
+enum GapIdx { Knuth = 3, Ciura = 0,
+              Simple = 1, Hibbard = 2, Fib = 4 };
+
+void create_knuth_gaps()
 {
-//    for (const auto& i : info) {
-//        run_unsorted(i.interval, i.msg);
-//    }
-    for (int i = 0; i < 2; ++i) {
-        run_unsorted(1000, "Knuth");
+    auto& gaps = info[Knuth].gaps;
+    size_t interval = 1;
+    while (interval < ArraySize/3) {
+        interval = interval * 3 + 1;
+    }
+    for (; interval > 0; interval = (interval - 1) / 3) {
+        gaps.push_back(interval);
     }
 }
 
-TEST(ShellSort, Sorted)
+// https://oeis.org/A102549
+void create_ciura_gaps()
+{
+    auto& gaps = info[Ciura].gaps;
+    gaps = {1, 4, 10, 23, 57, 132, 301, 701, 1750};
+    std::reverse(std::begin(gaps), std::end(gaps));
+    for(auto e : gaps) std::cout << e << " ";
+    std::cout << "\n";
+}
+
+// https://oeis.org/A168604
+void create_hibbard_gaps()
+{
+    auto& gaps = info[Hibbard].gaps;
+    gaps = {1, 3, 7, 15, 31, 63, 127, 255, 511, 1023};
+    std::reverse(std::begin(gaps), std::end(gaps));
+}
+
+void create_simple_gaps()
+{
+    auto& gaps = info[Simple].gaps;
+    gaps = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512};
+    std::reverse(std::begin(gaps), std::end(gaps));
+}
+
+void create_fib_gaps()
+{
+    for (size_t i = 2; i < 15; ++i) {
+        info[Fib].gaps.push_front(fib(i));
+    }
+}
+
+TEST(ShellSort, Unsorted)
+{
+    create_knuth_gaps();
+    create_ciura_gaps();
+    create_hibbard_gaps();
+    create_simple_gaps();
+    create_fib_gaps();
+
+    for (const auto& i : info) {
+        run_unsorted(i.gaps, i.msg);
+    }
+}
+
+template <typename G>
+void run_sorted(G& gaps, std::string msg)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
     create_sorted_array(array, expected_array, ArraySize);
 
-    auto interval = knuth_interval(array.size());
-    timed_run([&array, interval]() { shell_sort(array, interval); },
-              "Shell sort: sorted, Knuth interval");
+    timed_run([&array, &gaps]() { shell_sort(array, gaps); }, msg);
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
     EXPECT_EQ(0, diff.size());
+}
+
+TEST(ShellSort, Sorted)
+{
+    for (const auto& i : info) {
+        run_sorted();
+        run_sorted(i.gaps, i.msg);
+    }
 }
 
 TEST(ShellSort, PartiallySorted)

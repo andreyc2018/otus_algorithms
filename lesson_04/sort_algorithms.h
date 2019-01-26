@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 template<typename C, typename size_type, typename value_type>
 void find_and_insert(C& array, size_type insert_idx, value_type value, size_type offset)
 {
@@ -21,10 +23,10 @@ void insertion_sort(C& array)
     }
 }
 
-template<typename C, typename size_type>
-void shell_sort(C& array, size_type interval)
+template<typename C, typename G>
+void shell_sort(C& array, G gaps)
 {
-    for (; interval > 0; interval = (interval - 1)  / 3) {
+    for (auto interval : gaps) {
         for (auto next_idx = interval; next_idx < array.size(); ++next_idx) {
             find_and_insert(array, next_idx, array[next_idx], interval);
         }
