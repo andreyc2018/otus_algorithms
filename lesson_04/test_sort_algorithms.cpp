@@ -13,7 +13,7 @@ std::random_device rd;
 std::mt19937 rng(rd());
 }
 
-constexpr size_t InsertArraySize = 10000;
+constexpr size_t InsertArraySize = 50000;
 constexpr size_t ArraySize = 50000;
 
 void create_random_array(std::vector<int>& array,
@@ -60,12 +60,11 @@ void diff_arrays(std::vector<int>& array,
 template <typename F>
 void timed_run(F func, std::string msg)
 {
-    std::cout << "\n";
     stop_watch_t t;
     t.start();
     func();
     auto elapsed = t.stop();
-    std::cout << msg << " " << elapsed << " " << t.period() << "\n\n";
+    std::cout << msg << " " << elapsed << " " << t.period() << "\n";
 }
 
 TEST(InsertionSort, Unsorted)
@@ -74,7 +73,7 @@ TEST(InsertionSort, Unsorted)
     std::vector<int> expected_array;
     create_random_array(array, expected_array, InsertArraySize);
 
-    timed_run([&array]() { insertion_sort(array); }, "Insert sort: unsorted");
+    timed_run([&array]() { insertion_sort(array); }, "Unsorted:        ");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
@@ -87,7 +86,7 @@ TEST(InsertionSort, Sorted)
     std::vector<int> expected_array;
     create_sorted_array(array, expected_array, InsertArraySize);
 
-    timed_run([&array]() { insertion_sort(array); }, "Insert sort: sorted");
+    timed_run([&array]() { insertion_sort(array); }, "Sorted:          ");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
@@ -100,7 +99,7 @@ TEST(InsertionSort, PartiallySorted)
     std::vector<int> expected_array;
     create_partially_sorted_array(array, expected_array, InsertArraySize);
     
-    timed_run([&array]() { insertion_sort(array); }, "Insert sort: partially sorted");
+    timed_run([&array]() { insertion_sort(array); }, "Partially sorted:");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
@@ -113,28 +112,60 @@ TEST(InsertionSort, Reversed)
     std::vector<int> expected_array;
     create_reversed_array(array, expected_array, InsertArraySize);
 
-    timed_run([&array]() { insertion_sort(array); }, "Insert sort: reversed");
+    timed_run([&array]() { insertion_sort(array); }, "Reversed:        ");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
     EXPECT_EQ(0, diff.size());
 }
 
-size_t knuth_interval(size_t size)
-{
-    size_t interval = 1;
-
-    while (interval < size/3) {
-        interval = interval * 3 + 1;
-    }
-    return interval;
-}
-
 struct ShellSortInfo
 {
-    std::deque<size_t> gaps;
+    std::vector<size_t> gaps;
     std::string msg;
 };
+
+static std::vector<ShellSortInfo> info {
+    { {}, "Shell sort: Ciura:       " },
+    { {}, "Shell sort: Power of two:" },
+    { {}, "Shell sort: Hibbard:     " },
+    { {}, "Shell sort: Pratt:       " },
+    { {}, "Shell sort: Fib:         " }
+};
+
+// https://en.wikipedia.org/wiki/Shellsort
+enum GapIdx { Ciura = 0,    // https://oeis.org/A102549
+              PowerTwo = 1,
+              Hibbard = 2,  // https://oeis.org/A168604
+              Pratt = 3,    // https://oeis.org/A003462
+              Fib = 4 };
+
+void create_pratt_gaps()
+{
+    auto& gaps = info[Pratt].gaps;
+    size_t interval = 1;
+    while (interval < ArraySize/3) {
+        interval = interval * 3 + 1;
+    }
+    for (; interval > 0; interval = (interval - 1) / 3) {
+        gaps.push_back(interval);
+    }
+}
+
+void create_gaps(GapIdx idx, std::vector<size_t>&& seq)
+{
+    std::reverse(std::begin(seq), std::end(seq));
+    info[idx].gaps = seq;
+}
+
+void create_fib_gaps()
+{
+    auto& gaps = info[Fib].gaps;
+    for (size_t i = 2; i < 15; ++i) {
+        gaps.push_back(fib(i));
+    }
+    std::reverse(std::begin(gaps), std::end(gaps));
+}
 
 template <typename G>
 void run_unsorted(G& gaps, std::string msg)
@@ -148,74 +179,6 @@ void run_unsorted(G& gaps, std::string msg)
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
     EXPECT_EQ(0, diff.size());
-}
-
-static std::vector<ShellSortInfo> info {
-    { {}, "Shell sort: unsorted, Ciura:" },
-    { {}, "Shell sort: unsorted, Simple:" },
-    { {}, "Shell sort: unsorted, Hibbard:" },
-    { {}, "Shell sort: unsorted, Knuth:" },
-    { {}, "Shell sort: unsorted, Fib:" }
-};
-
-enum GapIdx { Knuth = 3, Ciura = 0,
-              Simple = 1, Hibbard = 2, Fib = 4 };
-
-void create_knuth_gaps()
-{
-    auto& gaps = info[Knuth].gaps;
-    size_t interval = 1;
-    while (interval < ArraySize/3) {
-        interval = interval * 3 + 1;
-    }
-    for (; interval > 0; interval = (interval - 1) / 3) {
-        gaps.push_back(interval);
-    }
-}
-
-// https://oeis.org/A102549
-void create_ciura_gaps()
-{
-    auto& gaps = info[Ciura].gaps;
-    gaps = {1, 4, 10, 23, 57, 132, 301, 701, 1750};
-    std::reverse(std::begin(gaps), std::end(gaps));
-    for(auto e : gaps) std::cout << e << " ";
-    std::cout << "\n";
-}
-
-// https://oeis.org/A168604
-void create_hibbard_gaps()
-{
-    auto& gaps = info[Hibbard].gaps;
-    gaps = {1, 3, 7, 15, 31, 63, 127, 255, 511, 1023};
-    std::reverse(std::begin(gaps), std::end(gaps));
-}
-
-void create_simple_gaps()
-{
-    auto& gaps = info[Simple].gaps;
-    gaps = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512};
-    std::reverse(std::begin(gaps), std::end(gaps));
-}
-
-void create_fib_gaps()
-{
-    for (size_t i = 2; i < 15; ++i) {
-        info[Fib].gaps.push_front(fib(i));
-    }
-}
-
-TEST(ShellSort, Unsorted)
-{
-    create_knuth_gaps();
-    create_ciura_gaps();
-    create_hibbard_gaps();
-    create_simple_gaps();
-    create_fib_gaps();
-
-    for (const auto& i : info) {
-        run_unsorted(i.gaps, i.msg);
-    }
 }
 
 template <typename G>
@@ -232,40 +195,70 @@ void run_sorted(G& gaps, std::string msg)
     EXPECT_EQ(0, diff.size());
 }
 
+template <typename G>
+void run_partially_sorted(G& gaps, std::string msg)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_partially_sorted_array(array, expected_array, ArraySize);
+
+    timed_run([&array, &gaps]() { shell_sort(array, gaps); }, msg);
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+template <typename G>
+void run_reversed(G& gaps, std::string msg)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_reversed_array(array, expected_array, ArraySize);
+
+    timed_run([&array, &gaps]() { shell_sort(array, gaps); }, msg);
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(ShellSort, Unsorted)
+{
+    for (const auto& i : info) {
+        run_unsorted(i.gaps, i.msg);
+    }
+}
+
 TEST(ShellSort, Sorted)
 {
     for (const auto& i : info) {
-        run_sorted();
         run_sorted(i.gaps, i.msg);
     }
 }
 
 TEST(ShellSort, PartiallySorted)
 {
-    std::vector<int> array;
-    std::vector<int> expected_array;
-    create_partially_sorted_array(array, expected_array, ArraySize);
-
-    auto interval = knuth_interval(array.size());
-    timed_run([&array, interval]() { shell_sort(array, interval); },
-              "Shell sort: partially sorted, Knuth interval");
-
-    std::vector<int> diff;
-    diff_arrays(array, expected_array, diff);
-    EXPECT_EQ(0, diff.size());
+    for (const auto& i : info) {
+        run_partially_sorted(i.gaps, i.msg);
+    }
 }
 
 TEST(ShellSort, Reversed)
 {
-    std::vector<int> array;
-    std::vector<int> expected_array;
-    create_reversed_array(array, expected_array, ArraySize);
+    for (const auto& i : info) {
+        run_reversed(i.gaps, i.msg);
+    }
+}
 
-    auto interval = knuth_interval(array.size());
-    timed_run([&array, interval]() { shell_sort(array, interval); },
-              "Shell sort: reversed, Knuth interval");
+int main(int argc, char** argv)
+{
+    create_pratt_gaps();
+    create_gaps(Ciura, {1, 4, 10, 23, 57, 132, 301, 701, 1750});
+    create_gaps(Hibbard, {1, 3, 7, 15, 31, 63, 127, 255, 511, 1023});
+    create_gaps(PowerTwo, {1, 4, 16, 64, 256, 1024, 4096, 16384});
+    create_fib_gaps();
 
-    std::vector<int> diff;
-    diff_arrays(array, expected_array, diff);
-    EXPECT_EQ(0, diff.size());
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

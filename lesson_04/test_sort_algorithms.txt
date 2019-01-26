@@ -1,0 +1,37 @@
+Array: 50000 random elements.
+
+Insertion Sort:
+Unsorted:         3788.66 milliseconds
+Sorted:           0.438125 milliseconds
+Partially sorted: 0.788137 milliseconds
+Reversed:         7658.65 milliseconds
+
+Shell Sort:
+Unsorted: Ciura:        16.0477 milliseconds
+Unsorted: Power of two: 50.0437 milliseconds
+Unsorted: Hibbard:      22.2236 milliseconds
+Unsorted: Pratt:        19.5907 milliseconds
+Unsorted: Fib:          34.2361 milliseconds
+
+Sorted: Ciura:        4.10382 milliseconds
+Sorted: Power of two: 3.47178 milliseconds
+Sorted: Hibbard:      4.79704 milliseconds
+Sorted: Pratt:        4.28032 milliseconds
+Sorted: Fib:          6.12339 milliseconds
+
+Partially sorted: Ciura:        4.41751 milliseconds
+Partially sorted: Power of two: 3.52967 milliseconds
+Partially sorted: Hibbard:      4.55277 milliseconds
+Partially sorted: Pratt:        4.10705 milliseconds
+Partially sorted: Fib:          5.96777 milliseconds
+
+Reversed: Ciura:        10.832 milliseconds
+Reversed: Power of two: 6.2963 milliseconds
+Reversed: Hibbard:      14.2441 milliseconds
+Reversed: Pratt:        6.01879 milliseconds
+Reversed: Fib:          28.9519 milliseconds
+
+Ciura   https://oeis.org/A102549
+Hibbard https://oeis.org/A168604
+Pratt   https://oeis.org/A003462
+
