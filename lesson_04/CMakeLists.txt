@@ -34,7 +34,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
 
 add_executable(test_sort_algorithms test_sort_algorithms.cpp sort_algorithms.h)
 target_compile_options(test_sort_algorithms PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_sort_algorithms gmock_main Threads::Threads)
+target_link_libraries(test_sort_algorithms gtest_main Threads::Threads)
 
 include(CPack)
 enable_testing()

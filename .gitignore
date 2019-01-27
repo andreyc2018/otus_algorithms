@@ -1,5 +1,6 @@
 *.ro
 **/build
+**/.ipynb_checkpoints
 core.*
 automation.html
 lesson_02/darray

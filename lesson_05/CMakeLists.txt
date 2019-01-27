@@ -34,7 +34,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
 
 add_executable(test_heapsort test_heapsort.cpp heapsort.h)
 target_compile_options(test_heapsort PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_heapsort gmock_main Threads::Threads)
+target_link_libraries(test_heapsort gtest_main Threads::Threads)
 
 include(CPack)
 enable_testing()
