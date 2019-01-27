@@ -27,61 +27,70 @@ void swap(H& heap, I i, I largest)
     heap[largest] = tmp;
 }
 
-template <typename T>
-void print_array(T& array, const std::string& msg)
+}
+
+template<typename T>
+void print_array(const T& array, const std::string& msg = "")
 {
-    std::cout << msg;
+    if (!msg.empty()) {
+        std::cout << msg;
+    }
     for (const auto& i : array) {
         std::cout << i << " ";
     }
     std::cout << "\n";
 }
-}
+
+namespace otus {
 
 template <typename H, typename I>
-void drown(H& heap, I i, I size)
+void drown(H& heap, I i, I last)
 {
+//    std::cout << i << ", " << last << ": ";
+//    print_array(heap);
     auto l = details::left(i);
     auto r = details::right(i);
 
-    I largest;
-    if (l <= size && heap[l] > heap[r]) {
+    I largest = i;
+    if (l <= last && heap[l] > heap[largest]) {
         largest = l;
-    } else {
-        largest = i;
     }
 
-    if (r <= size && heap[r] > heap[largest]) {
+    if (r <= last && heap[r] > heap[largest]) {
         largest = r;
     }
 
     if (largest != i) {
         details::swap(heap, i, largest);
-        drown(heap, largest, size);
+        drown(heap, largest, last);
     }
 }
 
 template <typename T>
 void build_heap(T& array)
 {
-    for (ssize_t i = details::floor_half(array.size()); i >= 0; --i) {
-        drown(array, i, array.size());
+    using idx_t = typename T::difference_type;
+    idx_t last = array.size() - 1;
+    for (idx_t i = details::floor_half(array.size()); i >= 0; --i) {
+        drown(array, i, last);
     }
 }
 
 template <typename T>
 void heapsort(T& array)
 {
-    details::print_array(array, "initial\n");
-    using size_type = typename T::size_type;
-    auto size = array.size();
+//    print_array(array, "initial\n");
+    using idx_t = typename T::difference_type;
+    idx_t first = 0;
+    idx_t last = array.size()-1;
     build_heap(array);
-    details::print_array(array, "after build_heap\n");
-    for (auto i = size - 1; i >= 1; --i) {
-        --size;
-        details::swap(array, static_cast<size_type>(0), i);
-        details::print_array(array, "after swap\n");
-        drown(array, static_cast<size_type>(0), size);
-        details::print_array(array, "after drown\n");
+//    print_array(array, "after build_heap\n");
+    for (auto i = last; i > 0; --i) {
+        --last;
+        details::swap(array, first, i);
+//        print_array(array, "after swap\n");
+        drown(array, first, last);
+//        print_array(array, "after drown\n");
     }
+}
 }

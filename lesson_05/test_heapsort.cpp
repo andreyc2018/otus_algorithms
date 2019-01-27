@@ -1,6 +1,7 @@
 #include "heapsort.h"
 #include <stopwatch.h>
 #include <random>
+#include <algorithm>
 #include <gtest/gtest.h>
 
 namespace {
@@ -64,13 +65,39 @@ void timed_run(F func, std::string msg)
     std::cout << msg << " " << elapsed << " " << t.period() << "\n";
 }
 
+TEST(HeapSort, BuildHeap)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_sorted_array(array, expected_array, 100, 1);
+
+//    print_array(array, "Array\n");
+
+    std::make_heap(std::begin(expected_array), std::end(expected_array));
+//    print_array(expected_array, "After std::make_heap\n");
+    std::make_heap(std::begin(expected_array), std::end(expected_array));
+//    print_array(expected_array, "After std::make_heap\n");
+
+//    std::cout << "Building heap\n";
+    otus::build_heap(array);
+//    print_array(array, "After build_heap 1\n");
+    otus::build_heap(array);
+//    print_array(array, "After build_heap 2\n");
+    otus::build_heap(array);
+//    print_array(array, "After build_heap 3\n");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
 TEST(HeapSort, Unsorted)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
-    create_sorted_array(array, expected_array, 20, 1);
+    create_sorted_array(array, expected_array, 10, 10);
 
-    timed_run([&array]() { heapsort(array); }, "Unsorted: ");
+    timed_run([&array]() { otus::heapsort(array); }, "Unsorted: ");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
