@@ -83,6 +83,24 @@ TEST(HeapSort, BuildHeap)
     EXPECT_EQ(0, diff.size());
 }
 
+TEST(HeapSort, BuildHeapLoop)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_sorted_array(array, expected_array, ArraySize, 1);
+
+    std::make_heap(std::begin(expected_array), std::end(expected_array));
+    std::make_heap(std::begin(expected_array), std::end(expected_array));
+
+    otus::build_heap_loop(array);
+    otus::build_heap_loop(array);
+    otus::build_heap_loop(array);
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
 TEST(HeapSort, Unsorted)
 {
     std::vector<int> array;

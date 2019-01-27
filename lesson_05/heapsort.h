@@ -63,6 +63,31 @@ void drown(H& heap, I i, I last)
     }
 }
 
+template <typename H, typename I>
+void drown_loop(H& heap, I i, I last)
+{
+    I largest = i;
+    do {
+//        std::cout << i << ", " << last << ": ";
+//        print_array(heap);
+        auto l = details::left(i);
+        auto r = details::right(i);
+
+        if (l <= last && heap[l] > heap[largest]) {
+            largest = l;
+        }
+
+        if (r <= last && heap[r] > heap[largest]) {
+            largest = r;
+        }
+
+        if (largest != i) {
+            details::swap(heap, i, largest);
+            i = largest;
+        }
+    } while (largest != i);
+}
+
 template <typename T>
 void build_heap(T& array)
 {
@@ -70,6 +95,16 @@ void build_heap(T& array)
     idx_t last = array.size() - 1;
     for (idx_t i = details::floor_half(array.size()); i >= 0; --i) {
         drown(array, i, last);
+    }
+}
+
+template <typename T>
+void build_heap_loop(T& array)
+{
+    using idx_t = typename T::difference_type;
+    idx_t last = array.size() - 1;
+    for (idx_t i = details::floor_half(array.size()); i >= 0; --i) {
+        drown_loop(array, i, last);
     }
 }
 

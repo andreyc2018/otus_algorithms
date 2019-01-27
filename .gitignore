@@ -1,5 +1,6 @@
 *.ro
 **/build
+**/build-*
 **/.ipynb_checkpoints
 core.*
 automation.html
