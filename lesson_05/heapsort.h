@@ -21,7 +21,6 @@ T floor_half(T size) { return parent(size); }
 template <typename H, typename I>
 void swap(H& heap, I i, I largest)
 {
-//    std::swap(heap[i], heap[largest]);
     auto tmp = heap[i];
     heap[i] = heap[largest];
     heap[largest] = tmp;
@@ -46,8 +45,6 @@ namespace otus {
 template <typename H, typename I>
 void drown(H& heap, I i, I last)
 {
-//    std::cout << i << ", " << last << ": ";
-//    print_array(heap);
     auto l = details::left(i);
     auto r = details::right(i);
 
@@ -79,18 +76,14 @@ void build_heap(T& array)
 template <typename T>
 void heapsort(T& array)
 {
-//    print_array(array, "initial\n");
     using idx_t = typename T::difference_type;
     idx_t first = 0;
     idx_t last = array.size()-1;
     build_heap(array);
-//    print_array(array, "after build_heap\n");
     for (auto i = last; i > 0; --i) {
         --last;
         details::swap(array, first, i);
-//        print_array(array, "after swap\n");
         drown(array, first, last);
-//        print_array(array, "after drown\n");
     }
 }
 }
