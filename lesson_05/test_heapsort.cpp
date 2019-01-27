@@ -9,7 +9,7 @@ std::random_device rd;
 std::mt19937 rng(rd());
 }
 
-constexpr size_t ArraySize = 50000;
+constexpr size_t ArraySize = 150000;
 
 void create_random_array(std::vector<int>& array,
                          std::vector<int>& expected_array, size_t size)
@@ -69,22 +69,14 @@ TEST(HeapSort, BuildHeap)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
-    create_sorted_array(array, expected_array, 100, 1);
-
-//    print_array(array, "Array\n");
+    create_sorted_array(array, expected_array, ArraySize, 1);
 
     std::make_heap(std::begin(expected_array), std::end(expected_array));
-//    print_array(expected_array, "After std::make_heap\n");
     std::make_heap(std::begin(expected_array), std::end(expected_array));
-//    print_array(expected_array, "After std::make_heap\n");
 
-//    std::cout << "Building heap\n";
     otus::build_heap(array);
-//    print_array(array, "After build_heap 1\n");
     otus::build_heap(array);
-//    print_array(array, "After build_heap 2\n");
     otus::build_heap(array);
-//    print_array(array, "After build_heap 3\n");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
@@ -95,9 +87,48 @@ TEST(HeapSort, Unsorted)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
-    create_sorted_array(array, expected_array, 10, 10);
+    create_random_array(array, expected_array, ArraySize);
 
-    timed_run([&array]() { otus::heapsort(array); }, "Unsorted: ");
+    timed_run([&array]() { otus::heapsort(array); }, "Unsorted:        ");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSort, Sorted)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_sorted_array(array, expected_array, ArraySize, 3000);
+
+    timed_run([&array]() { otus::heapsort(array); }, "Sorted:          ");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSort, PartiallySorted)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_partially_sorted_array(array, expected_array, ArraySize, 2000);
+
+    timed_run([&array]() { otus::heapsort(array); }, "Partially sorted:");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSort, Reversed)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_reversed_array(array, expected_array, ArraySize, 5050);
+
+    timed_run([&array]() { otus::heapsort(array); }, "Reversed:        ");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
