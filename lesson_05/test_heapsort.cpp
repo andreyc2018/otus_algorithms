@@ -72,29 +72,10 @@ TEST(HeapSort, BuildHeap)
     create_sorted_array(array, expected_array, ArraySize, 1);
 
     std::make_heap(std::begin(expected_array), std::end(expected_array));
-    std::make_heap(std::begin(expected_array), std::end(expected_array));
 
     otus::build_heap(array);
     otus::build_heap(array);
     otus::build_heap(array);
-
-    std::vector<int> diff;
-    diff_arrays(array, expected_array, diff);
-    EXPECT_EQ(0, diff.size());
-}
-
-TEST(HeapSort, BuildHeapLoop)
-{
-    std::vector<int> array;
-    std::vector<int> expected_array;
-    create_sorted_array(array, expected_array, ArraySize, 1);
-
-    std::make_heap(std::begin(expected_array), std::end(expected_array));
-    std::make_heap(std::begin(expected_array), std::end(expected_array));
-
-    otus::build_heap_loop(array);
-    otus::build_heap_loop(array);
-    otus::build_heap_loop(array);
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);
@@ -147,6 +128,75 @@ TEST(HeapSort, Reversed)
     create_reversed_array(array, expected_array, ArraySize, 5050);
 
     timed_run([&array]() { otus::heapsort(array); }, "Reversed:        ");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSortLoop, BuildHeap)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_sorted_array(array, expected_array, ArraySize, 1);
+
+    std::make_heap(std::begin(expected_array), std::end(expected_array));
+
+    otus::build_heap_loop(array);
+    otus::build_heap_loop(array);
+    otus::build_heap_loop(array);
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSortLoop, Unsorted)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_random_array(array, expected_array, ArraySize);
+
+    timed_run([&array]() { otus::heapsort_loop(array); }, "Unsorted:         ");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSortLoop, Sorted)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_sorted_array(array, expected_array, ArraySize, 3000);
+
+    timed_run([&array]() { otus::heapsort_loop(array); }, "Sorted:           ");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSortLoop, PartiallySorted)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_partially_sorted_array(array, expected_array, ArraySize, 2000);
+
+    timed_run([&array]() { otus::heapsort_loop(array); }, "Partially sorted:");
+
+    std::vector<int> diff;
+    diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(HeapSortLoop, Reversed)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    create_reversed_array(array, expected_array, ArraySize, 5050);
+
+    timed_run([&array]() { otus::heapsort_loop(array); }, "Reversed:        ");
 
     std::vector<int> diff;
     diff_arrays(array, expected_array, diff);

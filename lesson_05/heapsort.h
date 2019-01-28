@@ -68,11 +68,10 @@ void drown_loop(H& heap, I i, I last)
 {
     I largest = i;
     do {
-//        std::cout << i << ", " << last << ": ";
-//        print_array(heap);
         auto l = details::left(i);
         auto r = details::right(i);
 
+        largest = i;
         if (l <= last && heap[l] > heap[largest]) {
             largest = l;
         }
@@ -84,6 +83,7 @@ void drown_loop(H& heap, I i, I last)
         if (largest != i) {
             details::swap(heap, i, largest);
             i = largest;
+            largest = -1;
         }
     } while (largest != i);
 }
@@ -119,6 +119,20 @@ void heapsort(T& array)
         --last;
         details::swap(array, first, i);
         drown(array, first, last);
+    }
+}
+
+template <typename T>
+void heapsort_loop(T& array)
+{
+    using idx_t = typename T::difference_type;
+    idx_t first = 0;
+    idx_t last = array.size()-1;
+    build_heap(array);
+    for (auto i = last; i > 0; --i) {
+        --last;
+        details::swap(array, first, i);
+        drown_loop(array, first, last);
     }
 }
 }
