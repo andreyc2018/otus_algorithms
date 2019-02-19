@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <iostream>
-//#include <algorithm>
 
 namespace details {
 

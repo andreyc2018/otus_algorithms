@@ -32,7 +32,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googletest/include
         ${GTEST_DIR}/googlemock/include)
 
-add_executable(test_mergesort test_mergesort.cpp mergesort.h)
+set(HEADER_FILES
+    ${COURSE_DIR}/include/stopwatch.h
+    ${COURSE_DIR}/include/test_tools.h)
+
+add_executable(test_mergesort test_mergesort.cpp mergesort.h ${HEADER_FILES})
 target_compile_options(test_mergesort PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_mergesort gtest_main Threads::Threads)
 
