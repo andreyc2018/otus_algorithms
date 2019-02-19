@@ -33,6 +33,17 @@ template <typename T>
 view_range<T> merge(view_range<T>& left, view_range<T>& right)
 {
     view_range<T> result(left.base(), left.begin(), right.end());
+    auto l = left.begin();
+    auto r = right.begin();
+    while (l != left.end() && r != right.end()) {
+        if (*l < *r) {
+            ++l;
+        }
+        else if (*l > *r) {
+            std::swap(*l, *r);
+            ++r;
+        }
+    }
     return result;
 }
 
