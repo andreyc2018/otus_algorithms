@@ -58,22 +58,27 @@ view_range<T> merge(view_range<T>& left, view_range<T>& right)
 {
     T result;
     view_range<T> result_view(left.base(), left.begin(), right.end());
+    auto e = result_view.begin();
     auto l = left.begin();
     auto r = right.begin();
 
     debug_print(result_view, left, right, l, r);
 
+    auto next = *l;
     while (l != left.end() && r != right.end()) {
-        if (*l > *r) {
-            result.push_back(*r);
+        if (next > *r) {
+//            result.push_back(*r);
+            next = *r;
+            std::swap(*l, *r);
             ++r;
         }
         else if (*l < *r) {
             result.push_back(*l);
             ++l;
         }
+        std::swap(*e, next);
+        ++e;
         debug_print(result_view, left, right, l, r);
-        debug_print(result, left.begin(), right.begin(), l, r);
     }
 
     for (; l != left.end(); ++l) {
