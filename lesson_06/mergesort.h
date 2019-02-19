@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iterator>
+#include <iostream>
 
 namespace otus {
 
@@ -21,7 +22,8 @@ class view_range
 
         size_type size() const { return std::distance(begin_, end_); }
 
-        T& base() { return array_; };
+        T& base() { return array_; }
+        const T& base() const { return array_; }
 
     private:
         T& array_;
@@ -29,22 +31,62 @@ class view_range
         iterator end_;
 };
 
+template <typename T, typename I>
+void debug_print(const T& result, const T& left, const T& right, const I& l, const I& r)
+{
+    std::cout << std::distance(left.begin(), l) << ":"
+              << std::distance(right.begin(), r) << " ";
+    for (const auto& v : result.base()) {
+        std::cout << v << " ";
+    }
+    std::cout << "\n";
+}
+
+template <typename T, typename I>
+void debug_print(const T& result, const I& lbegin, const I& rbegin, const I& l, const I& r)
+{
+    std::cout << std::distance(lbegin, l) << ":"
+              << std::distance(rbegin, r) << " ";
+    for (const auto& v : result) {
+        std::cout << v << " ";
+    }
+    std::cout << "\n";
+}
+
 template <typename T>
 view_range<T> merge(view_range<T>& left, view_range<T>& right)
 {
-    view_range<T> result(left.base(), left.begin(), right.end());
+    T result;
+    view_range<T> result_view(left.base(), left.begin(), right.end());
     auto l = left.begin();
     auto r = right.begin();
+
+    debug_print(result_view, left, right, l, r);
+
     while (l != left.end() && r != right.end()) {
-        if (*l < *r) {
-            ++l;
-        }
-        else if (*l > *r) {
-            std::swap(*l, *r);
+        if (*l > *r) {
+            result.push_back(*r);
             ++r;
         }
+        else if (*l < *r) {
+            result.push_back(*l);
+            ++l;
+        }
+        debug_print(result_view, left, right, l, r);
+        debug_print(result, left.begin(), right.begin(), l, r);
     }
-    return result;
+
+    for (; l != left.end(); ++l) {
+        result.push_back(*l);
+    }
+
+    for (; r != right.end(); ++r) {
+        result.push_back(*r);
+    }
+
+    debug_print(result, left.begin(), right.begin(), l, r);
+
+    return result_view;
 }
 
 template <typename T>
