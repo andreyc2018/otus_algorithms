@@ -68,17 +68,58 @@ view_range<T> merge(view_range<T>& left, view_range<T>& right)
     while (l != left.end() && r != right.end()) {
         if (next > *r) {
 //            result.push_back(*r);
-            next = *r;
-            std::swap(*l, *r);
+            *e = *r;
+            ++r;
+        }
+        else if (next < *r) {
+//            result.push_back(*l);
+            ++l;
+            auto tmp = *l;
+            *e = next;
+            next = tmp;
+        }
+//        std::swap(*e, next);
+        ++e;
+        debug_print(result_view, left, right, l, r);
+        std::cout << "n = " << next << "\n";
+//        debug_print(result, left.begin(), right.begin(), l, r);
+    }
+    debug_print(result_view, left, right, l, r);
+    std::cout << "n = " << next << "\n";
+
+//    for (; l != left.end(); ++l) {
+//        result.push_back(*l);
+//    }
+
+//    for (; r != right.end(); ++r) {
+//        result.push_back(*r);
+//    }
+
+//    debug_print(result, left.begin(), right.begin(), l, r);
+
+    return result_view;
+}
+
+template <typename T>
+view_range<T> merge_array(view_range<T>& left, view_range<T>& right)
+{
+    T result;
+    view_range<T> result_view(left.base(), left.begin(), right.end());
+    auto l = left.begin();
+    auto r = right.begin();
+
+    debug_print(result_view, left, right, l, r);
+
+    while (l != left.end() && r != right.end()) {
+        if (*l > *r) {
+            result.push_back(*r);
             ++r;
         }
         else if (*l < *r) {
             result.push_back(*l);
             ++l;
         }
-        std::swap(*e, next);
-        ++e;
-        debug_print(result_view, left, right, l, r);
+        debug_print(result, left.begin(), right.begin(), l, r);
     }
 
     for (; l != left.end(); ++l) {

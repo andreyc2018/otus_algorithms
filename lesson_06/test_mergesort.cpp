@@ -3,6 +3,17 @@
 #include <test_tools.h>
 #include <gtest/gtest.h>
 
+TEST(MergeSort, MergeArray)
+{
+    using array_t = std::vector<int>;
+    array_t array { 3, 7, 1, 4, 5 };
+    auto l = std::begin(array);
+    auto r = std::next(l, 2);
+    otus::view_range<array_t> left(array, l, r);
+    otus::view_range<array_t> right(array, r, std::end(array));
+    otus::merge_array(left, right);
+}
+
 TEST(MergeSort, Merge)
 {
     using array_t = std::vector<int>;
