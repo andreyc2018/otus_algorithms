@@ -13,11 +13,11 @@ else()
     set(BUILD_NUM 99)
 endif()
 
-set(homework_VERSION_MAJOR 8)
+set(homework_VERSION_MAJOR 9)
 set(homework_VERSION_MINOR 0)
 set(homework_VERSION_BUILD ${BUILD_NUM})
 
-project(algorithms_lesson-08 VERSION
+project(algorithms_lesson-09 VERSION
         ${homework_VERSION_MAJOR}.${homework_VERSION_MINOR}.${homework_VERSION_BUILD})
 
 find_package(Threads REQUIRED)
