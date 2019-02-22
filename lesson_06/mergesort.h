@@ -15,9 +15,9 @@ void debug_print(const T& array)
 }
 
 template <typename T, typename S = typename T::size_type>
-void debug_print(T& array, S b, S m, S e)
+void debug_print(T& array, S b, S e, const std::string& msg)
 {
-    std::cout << b << ":" << m << "\n";
+    std::cout << msg << " " << b << ":" << e << " - ";
     for (auto i = b; i < e; ++i) {
         std::cout << array[i] << " ";
     }
@@ -27,6 +27,10 @@ void debug_print(T& array, S b, S m, S e)
 template <typename T, typename S = typename T::size_type>
 void merge(T& copy, S b, S m, S e, T& array)
 {
+    debug_print(array, b, m, "merge array b m");
+    debug_print(array, m, e, "merge array m e");
+    debug_print(copy, b, m, "merge copy b m");
+    debug_print(copy, m, e, "merge copy m e");
     auto f = b;
     auto s = m;
     for (auto i = b; i < e; ++i) {
@@ -37,6 +41,8 @@ void merge(T& copy, S b, S m, S e, T& array)
             copy[i] = array[s];
         }
     }
+    debug_print(array, b, e, "after merge array");
+    debug_print(copy, b, e, "after merge copy");
 }
 
 template <typename T, typename S = typename T::size_type>
@@ -46,8 +52,6 @@ void split_merge(T& copy, S b, S e, T& array)
         return;
     }
 
-    debug_print(array, b, e);
-    debug_print(copy, b, e);
     auto m = (e + b) / 2;
     split_merge(array, b, m, copy);
     split_merge(array, m, e, copy);
