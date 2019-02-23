@@ -5,7 +5,7 @@
 template<typename C, typename size_type, typename value_type>
 void find_and_insert(C& array, size_type insert_idx, value_type value, size_type offset)
 {
-    while(insert_idx > (offset - 1) && array[insert_idx-offset] > value){
+    while(insert_idx > (offset - 1) && array[insert_idx-offset] > value) {
         array[insert_idx] = array[insert_idx-offset];
         insert_idx -= offset;
     }
