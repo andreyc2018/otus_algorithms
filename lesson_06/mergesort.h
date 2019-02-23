@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iterator>
+#include <future>
 #include <iostream>
 
 namespace otus {
@@ -41,27 +42,34 @@ void merge(T& copy, S b, S m, S e, T& array)
 }
 
 template <typename T, typename S = typename T::size_type>
-void split_merge(T& copy, S b, S e, T& array)
+void split_merge(T& copy, S b, S e, T& array, unsigned int fork_join_limit)
 {
     if (e - b < 2) {
         return;
     }
 
     auto m = (e + b) / 2;
-    split_merge(array, b, m, copy);
-    split_merge(array, m, e, copy);
+    if (m - b >= fork_join_limit) {
+        auto handle = std::async(std::launch::async,
+                                 split_merge<T>, std::ref(array), b, m, std::ref(copy),
+                                 fork_join_limit);
+        handle.wait();
+    } else {
+        split_merge(array, b, m, copy, fork_join_limit);
+    }
+    split_merge(array, m, e, copy, fork_join_limit);
     merge(copy, b, m, e, array);
 }
 
 template <typename T>
-void merge_sort(T& array)
+void merge_sort(T& array, unsigned int fork_join_limit = 1000)
 {
     if (array.size() < 2) {
         return;
     }
     T copy(array);
 
-    split_merge(array, 0ul, array.size(), copy);
+    split_merge(array, 0ul, array.size(), copy, fork_join_limit);
 }
 
 }
