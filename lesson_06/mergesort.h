@@ -44,6 +44,8 @@ void merge(T& copy, S b, S m, S e, T& array)
 template <typename T, typename S = typename T::size_type>
 void split_merge(T& copy, S b, S e, T& array, unsigned int fork_join_limit)
 {
+    std::cout << std::this_thread::get_id() << "\n";
+
     if (e - b < 2) {
         return;
     }
