@@ -37,11 +37,11 @@ void count_sort(T& array, typename T::value_type k)
 //        std::cout << "counter[" << i << "] = " << counter[i].count << "\n";
     }
 
-    int j = 0;
-    for (const auto& i : counter) {
-        std::cout << "j = " << j << " value = " << i.value << ", count = " << i.count << "\n";
-        ++j;
-    }
+//    int j = 0;
+//    for (const auto& i : counter) {
+//        std::cout << "j = " << j << " value = " << i.value << ", count = " << i.count << "\n";
+//        ++j;
+//    }
 
     element_t counter_pointer = 0;
     element_t array_pointer = 0;
@@ -93,13 +93,13 @@ void count_sort(T& array, typename T::value_type k)
     }
 
     for (auto& i : array) {
-        counter[i] ++;
+        counter.count[i] ++;
 //        std::cout << i << " : " << counter.value[i] << " : " << counter.count[i] << "\n";
     }
 
-    for (element_t i = 0; i <= k; ++i) {
-        std::cout << "i = " << i << " value = " << counter.value[i] << ", count = " << counter.count[i] << "\n";
-    }
+//    for (element_t i = 0; i <= k; ++i) {
+//        std::cout << "i = " << i << " value = " << counter.value[i] << ", count = " << counter.count[i] << "\n";
+//    }
 
     element_t counter_pointer = 0;
     element_t array_pointer = 0;
