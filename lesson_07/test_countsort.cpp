@@ -67,3 +67,34 @@ TEST(CountSort, Unsorted_Sov)
     test_tools::diff_arrays(array, expected_array, diff);
     EXPECT_EQ(0, diff.size());
 }
+
+TEST(CountSort, Sorted_Vos)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    test_tools::create_sorted_array(array, expected_array, test_tools::ArraySize, 1000000);
+
+    auto k = expected_array.back();
+    test_tools::timed_run(std::cout,
+                          [&array, k]() { otus::vos::count_sort(array, k); }, "Sorted:            ");
+
+    std::vector<int> diff;
+    test_tools::diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+
+TEST(CountSort, Sorted_Sov)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    test_tools::create_sorted_array(array, expected_array, test_tools::ArraySize, 1000000);
+
+    auto k = expected_array.back();
+    test_tools::timed_run(std::cout,
+                          [&array, k]() { otus::sov::count_sort(array, k); }, "Sorted:            ");
+
+    std::vector<int> diff;
+    test_tools::diff_arrays(array, expected_array, diff);
+    EXPECT_EQ(0, diff.size());
+}
+

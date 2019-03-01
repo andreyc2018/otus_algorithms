@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <numeric>
+#include <algorithm>
 #include <iostream>
 
 namespace otus {
@@ -28,20 +30,9 @@ void count_sort(T& array, typename T::value_type k)
         counter.emplace_back(i, 0);
     }
 
-//    for (const auto& i : counter) {
-//        std::cout << "value = " << i.value << ", count = " << i.count << "\n";
-//    }
-
     for (const auto& i : array) {
         counter[i].count ++;
-//        std::cout << "counter[" << i << "] = " << counter[i].count << "\n";
     }
-
-//    int j = 0;
-//    for (const auto& i : counter) {
-//        std::cout << "j = " << j << " value = " << i.value << ", count = " << i.count << "\n";
-//        ++j;
-//    }
 
     element_t counter_pointer = 0;
     element_t array_pointer = 0;
@@ -71,15 +62,8 @@ void count_sort(T& array, typename T::value_type k)
     using element_t = decltype (k);
     struct CounterValue
     {
-        CounterValue() = default;
-        CounterValue(element_t k) { value.reserve(k), count.reserve(k); }
-        void push_back(element_t v, element_t c) {
-            value.push_back(v);
-            count.push_back(c);
-        }
-
-        element_t& operator[](element_t& i) {
-            return count[i];
+        CounterValue(element_t k) : value(k+1), count(k+1, 0) {
+            std::iota(std::begin(value), std::end(value), 0);
         }
 
         std::vector<element_t> value;
@@ -87,19 +71,11 @@ void count_sort(T& array, typename T::value_type k)
     };
 
     using counter_t = CounterValue;
-    counter_t counter;
-    for (element_t i = 0; i <= k; ++i) {
-        counter.push_back(i, 0);
-    }
+    counter_t counter(k);
 
-    for (auto& i : array) {
-        counter.count[i] ++;
-//        std::cout << i << " : " << counter.value[i] << " : " << counter.count[i] << "\n";
-    }
-
-//    for (element_t i = 0; i <= k; ++i) {
-//        std::cout << "i = " << i << " value = " << counter.value[i] << ", count = " << counter.count[i] << "\n";
-//    }
+    std::for_each(std::begin(array), std::end(array), [&counter](const element_t& i) {
+        counter.count[i]++;
+    });
 
     element_t counter_pointer = 0;
     element_t array_pointer = 0;
