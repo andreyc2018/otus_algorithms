@@ -36,13 +36,13 @@ set(HEADER_FILES
     ${COURSE_DIR}/include/stopwatch.h
     ${COURSE_DIR}/include/test_tools.h)
 
-add_executable(test_mergesort test_mergesort.cpp mergesort.h ${HEADER_FILES})
-target_compile_options(test_mergesort PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_mergesort gtest_main Threads::Threads)
+add_executable(test_countsort test_countsort.cpp countsort.h ${HEADER_FILES})
+target_compile_options(test_countsort PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(test_countsort gtest_main Threads::Threads)
 
 include(CPack)
 enable_testing()
-add_test(NAME power COMMAND test_mergesort)
+add_test(NAME power COMMAND test_countsort)
 
 # Add googltest
 if(EXISTS ${GTEST_DIR}/CMakeLists.txt)

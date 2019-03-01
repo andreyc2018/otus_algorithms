@@ -6,25 +6,6 @@
 
 namespace otus {
 
-template <typename T>
-void debug_print(const T& array)
-{
-    for (const auto& v : array) {
-        std::cout << v << " ";
-    }
-    std::cout << "\n";
-}
-
-template <typename T, typename S = typename T::size_type>
-void debug_print(T& array, S b, S e, const std::string& msg)
-{
-    std::cout << msg << " " << b << ":" << e << " - ";
-    for (auto i = b; i < e; ++i) {
-        std::cout << array[i] << " ";
-    }
-    std::cout << "\n";
-}
-
 template <typename T, typename S = typename T::size_type>
 void merge(T& copy, S b, S m, S e, T& array)
 {
