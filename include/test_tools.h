@@ -14,7 +14,7 @@ std::random_device rd;
 std::mt19937 rng(rd());
 }
 
-constexpr size_t ArraySize = 150000;
+constexpr size_t ArraySize = 1500000;
 
 void create_random_array(std::vector<int>& array,
                          std::vector<int>& expected_array, size_t size,
