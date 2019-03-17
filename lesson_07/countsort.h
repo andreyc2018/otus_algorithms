@@ -1,11 +1,52 @@
 #pragma once
 
+#include <test_tools.h>
 #include <vector>
 #include <numeric>
 #include <algorithm>
 #include <iostream>
 
 namespace otus {
+namespace original {
+
+template <typename T>
+void count_sort(T& array, typename T::value_type k)
+{
+    using element_t = decltype (k);
+    T count (k+1, 0);
+
+//    test_tools::debug_print(std::cout, count);
+
+    for (const auto& i : array) {
+        count[i] ++;
+    }
+
+//    test_tools::debug_print(std::cout, count);
+
+    for (element_t i = 1; i <= k; ++i) {
+        count[i] += count[i-1];
+    }
+
+//    test_tools::debug_print(std::cout, count);
+
+    T sorted(array.size());
+
+//    test_tools::debug_print(std::cout, sorted);
+
+    std::for_each(std::rbegin(array), std::rend(array), [&sorted, &count](const element_t& item) {
+        count[item] -= 1;
+        sorted[count[item]] = item;
+    });
+
+//    test_tools::debug_print(std::cout, sorted);
+
+    std::copy(std::begin(sorted), std::end(sorted), std::begin(array));
+}
+
+}
+/**
+ * Vector Of Structs
+ */
 namespace vos {
 /**
  * @brief count_sort_vos - Count sort using vector of structs
@@ -50,6 +91,9 @@ void count_sort(T& array, typename T::value_type k)
 
 }
 
+/**
+ * Struct Of Vectors
+ */
 namespace sov {
 /**
  * @brief count_sort_vos - Count sort using struct of vectors
