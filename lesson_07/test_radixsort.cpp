@@ -17,7 +17,7 @@ TEST(RadixSort, PrintDigits)
             std::cout << "\t" << a << " => " << (a/i)%10 << "\n";
         }
     }
-    otus::radix_sort(array, k);
+    otus::count::radix_sort(array, k);
 }
 
 TEST(RadixSort, Unsorted_Short)
@@ -29,7 +29,7 @@ TEST(RadixSort, Unsorted_Short)
     test_tools::debug_print(std::cout, expected_array);
 
     auto k = expected_array.back();
-    otus::radix_sort(array, k);
+    otus::count::radix_sort(array, k);
     test_tools::debug_print(std::cout, array);
 
     std::vector<int> diff;
@@ -38,7 +38,7 @@ TEST(RadixSort, Unsorted_Short)
     EXPECT_EQ(expected, diff.size());
 }
 
-TEST(CountSort, Unsorted)
+TEST(RadixSort, Unsorted)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
@@ -46,7 +46,7 @@ TEST(CountSort, Unsorted)
 
     auto k = expected_array.back();
     test_tools::timed_run(std::cout,
-                          [&array, k]() { otus::radix_sort(array, k); }, "Unsorted:          ");
+                          [&array, k]() { otus::count::radix_sort(array, k); }, "Unsorted:          ");
 
     std::vector<int> diff;
     test_tools::diff_arrays(array, expected_array, diff);
@@ -54,7 +54,7 @@ TEST(CountSort, Unsorted)
     EXPECT_EQ(expected, diff.size());
 }
 
-TEST(CountSort, Sorted)
+TEST(RadixSort, Sorted)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
@@ -62,7 +62,7 @@ TEST(CountSort, Sorted)
 
     auto k = expected_array.back();
     test_tools::timed_run(std::cout,
-                          [&array, k]() { otus::radix_sort(array, k); }, "Sorted:            ");
+                          [&array, k]() { otus::count::radix_sort(array, k); }, "Sorted:            ");
 
     std::vector<int> diff;
     test_tools::diff_arrays(array, expected_array, diff);
@@ -70,7 +70,7 @@ TEST(CountSort, Sorted)
     EXPECT_EQ(expected, diff.size());
 }
 
-TEST(CountSort, Reversed)
+TEST(RadixSort, Reversed)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
@@ -78,7 +78,40 @@ TEST(CountSort, Reversed)
 
     auto k = expected_array.back();
     test_tools::timed_run(std::cout,
-                          [&array, k]() { otus::radix_sort(array, k); }, "Reversed:          ");
+                          [&array, k]() { otus::count::radix_sort(array, k); }, "Reversed:          ");
+
+    std::vector<int> diff;
+    test_tools::diff_arrays(array, expected_array, diff);
+    size_t expected = 0;
+    EXPECT_EQ(expected, diff.size());
+}
+
+TEST(Trie, CanCreateEmptyTrie)
+{
+    otus::trie::RadixTrie<int> t;
+    size_t expected = 0;
+    EXPECT_EQ(expected, t.size());
+}
+
+TEST(Trie, CanAddElements)
+{
+    otus::trie::RadixTrie<int> t;
+    t.add(321);
+    size_t expected = 1;
+    EXPECT_EQ(expected, t.size());
+}
+
+TEST(RadixSort, Trie_Unsorted_Short)
+{
+    std::vector<int> array;
+    std::vector<int> expected_array;
+    test_tools::create_random_array(array, expected_array, 5, 10);
+    test_tools::debug_print(std::cout, array);
+    test_tools::debug_print(std::cout, expected_array);
+
+    auto k = expected_array.back();
+    otus::trie::radix_sort(array, k);
+    test_tools::debug_print(std::cout, array);
 
     std::vector<int> diff;
     test_tools::diff_arrays(array, expected_array, diff);
