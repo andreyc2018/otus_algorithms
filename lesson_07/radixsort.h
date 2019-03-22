@@ -120,6 +120,7 @@ class RadixTrie
                     next = node->add_child(radix_v);
                 }
                 node = next;
+                std::cout << "node->node_value = " << node->node_value << "\n";
 //                for (auto& c : root_->children) {
 //                    if (!c.contains(radix_v)) {
 
@@ -129,6 +130,10 @@ class RadixTrie
 //                    std::cout << "\t" << a << " => " << (a/i)%10 << "\n";
 //                }
             }
+            node->add(v);
+            size_ += 1;
+            std::cout << "node->count = " << node->count << "\n";
+            std::cout << "node->value = " << node->value << "\n";
         }
 
     private:
@@ -136,6 +141,9 @@ class RadixTrie
         size_t size_;
 
         void destroy_trie(node_t* node) {
+            if (node == nullptr) {
+                return;
+            }
             for (auto& n : node->children) {
                 destroy_trie(n);
             }

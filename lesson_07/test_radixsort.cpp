@@ -99,6 +99,14 @@ TEST(Trie, CanAddElements)
     t.add(321);
     size_t expected = 1;
     EXPECT_EQ(expected, t.size());
+
+    t.add(332);
+    expected = 2;
+    EXPECT_EQ(expected, t.size());
+
+    t.add(33);
+    expected = 3;
+    EXPECT_EQ(expected, t.size());
 }
 
 TEST(RadixSort, Trie_Unsorted_Short)
