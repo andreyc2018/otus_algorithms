@@ -4,7 +4,8 @@
 #include <iostream>
 #include <algorithm>
 
-static constexpr size_t ArraySize = 150000;
+static constexpr size_t ArraySize = 1500;
+static constexpr size_t MaxValue = 1000;
 
 TEST(RadixSort, PrintDigits)
 {
@@ -42,7 +43,7 @@ TEST(RadixSort, Unsorted)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
-    test_tools::create_random_array(array, expected_array, ArraySize, 10000);
+    test_tools::create_random_array(array, expected_array, ArraySize, MaxValue);
 
     auto k = expected_array.back();
     test_tools::timed_run(std::cout,
@@ -58,7 +59,7 @@ TEST(RadixSort, Sorted)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
-    test_tools::create_sorted_array(array, expected_array, ArraySize, 10000);
+    test_tools::create_sorted_array(array, expected_array, ArraySize, MaxValue);
 
     auto k = expected_array.back();
     test_tools::timed_run(std::cout,
@@ -74,7 +75,7 @@ TEST(RadixSort, Reversed)
 {
     std::vector<int> array;
     std::vector<int> expected_array;
-    test_tools::create_reversed_array(array, expected_array, ArraySize, 10000);
+    test_tools::create_reversed_array(array, expected_array, ArraySize, MaxValue);
 
     auto k = expected_array.back();
     test_tools::timed_run(std::cout,
