@@ -110,6 +110,7 @@ TEST(Trie, CanAddElements)
     EXPECT_EQ(expected, t.size());
 }
 
+/*
 TEST(RadixSort, Trie_Unsorted_Short)
 {
     std::vector<int> array;
@@ -127,3 +128,4 @@ TEST(RadixSort, Trie_Unsorted_Short)
     size_t expected = 0;
     EXPECT_EQ(expected, diff.size());
 }
+*/
