@@ -4,8 +4,8 @@
 #include <iostream>
 #include <algorithm>
 
-static constexpr size_t ArraySize = 1500;
-static constexpr size_t MaxValue = 1000;
+static constexpr size_t ArraySize = 150;
+static constexpr size_t MaxValue = 100;
 
 TEST(RadixSort, PrintDigits)
 {
@@ -89,14 +89,14 @@ TEST(RadixSort, Reversed)
 
 TEST(Trie, CanCreateEmptyTrie)
 {
-    otus::trie::RadixTrie<int> t;
+    otus::trie::RadixTrie<int> t(0);
     size_t expected = 0;
     EXPECT_EQ(expected, t.size());
 }
 
 TEST(Trie, CanAddElements)
 {
-    otus::trie::RadixTrie<int> t;
+    otus::trie::RadixTrie<int> t(999);
     t.add(321);
     size_t expected = 1;
     EXPECT_EQ(expected, t.size());
@@ -107,6 +107,10 @@ TEST(Trie, CanAddElements)
 
     t.add(33);
     expected = 3;
+    EXPECT_EQ(expected, t.size());
+
+    t.add(332);
+    expected = 4;
     EXPECT_EQ(expected, t.size());
 }
 

@@ -47,10 +47,10 @@ void count_sort(T& array, typename T::value_type k, typename T::value_type idx)
 template <typename T>
 void radix_sort(T& array, typename T::value_type k)
 {
-    //    std::cout << "k = " << k << "\n";
+    std::cout << "k = " << k << "\n";
     for (int i = 1; i <= k; i *= 10) {
-        //        std::cout << "i = " << i << "\n\t";
-        //        test_tools::debug_print(std::cout, array);
+//        std::cout << "i = " << i << "\n\t";
+//        test_tools::debug_print(std::cout, array);
         count_sort(array, 10, i);
     }
 }
@@ -103,16 +103,20 @@ class RadixTrie
     public:
         using node_t = RadixNode<T>;
 
-        RadixTrie() : root_(new node_t), size_(0) {}
-        ~RadixTrie() { /*destroy_trie(root_);*/ }
+        RadixTrie(T max)
+          : root_(new node_t), size_(0), max_digit_(1)
+        {
+            for (; max_digit_ < max; max_digit_ *= 10);
+            max_digit_ /= 10;
+        }
+        ~RadixTrie() { destroy_trie(root_); }
 
         size_t size() const { return size_; }
 
         void add(const T& v) {
-            std::cout << "v = " << v << "\n";
+            std::cout << "\nv = " << v << "\n";
             auto node = root_;
-            for (int i = 1; i <= v; i *= 10) {
-                std::cout << "i = " << i << "\n";
+            for (int i = max_digit_; i > 0; i /= 10) {
                 auto radix_v = (v/i)%10;
                 std::cout << "radix_v = " << radix_v << "\n";
                 node_t* next = node->contains_node_value(radix_v);
@@ -121,14 +125,6 @@ class RadixTrie
                 }
                 node = next;
                 std::cout << "node->node_value = " << node->node_value << "\n";
-//                for (auto& c : root_->children) {
-//                    if (!c.contains(radix_v)) {
-
-//                    }
-//                }
-//                for (const auto& a : array) {
-//                    std::cout << "\t" << a << " => " << (a/i)%10 << "\n";
-//                }
             }
             node->add(v);
             size_ += 1;
@@ -139,6 +135,7 @@ class RadixTrie
     private:
         node_t* root_;
         size_t size_;
+        int max_digit_;
 
         void destroy_trie(node_t* node) {
             if (node == nullptr) {
