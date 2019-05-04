@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RL=`which greadlink`
+RL=`which greadlink 2>/dev/null`
 if [ -z "$RL" ]
 then
     RL=`which readlink`
