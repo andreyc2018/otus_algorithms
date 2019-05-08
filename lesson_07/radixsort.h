@@ -132,6 +132,21 @@ class RadixTrie
             std::cout << "node->value = " << node->value << "\n";
         }
 
+        bool find(const T& v) {
+            std::cout << "\nv = " << v << "\n";
+            auto node = root_;
+            for (int i = max_digit_; i > 0; i /= 10) {
+                auto radix_v = (v/i)%10;
+                std::cout << "radix_v = " << radix_v << "\n";
+                node_t* next = node->contains_node_value(radix_v);
+                if (next == nullptr) {
+                    return false;
+                }
+                node = next;
+            }
+            return true;
+        }
+
     private:
         node_t* root_;
         size_t size_;

@@ -40,7 +40,7 @@ add_executable(test_countsort test_countsort.cpp countsort.h ${HEADER_FILES})
 target_compile_options(test_countsort PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_countsort gtest_main Threads::Threads)
 
-add_executable(test_radixsort test_radixsort.cpp radixsort.h ${HEADER_FILES})
+add_executable(test_radixsort test_radixsort.cpp radixsort.h ${HEADER_FILES} Readme.md)
 target_compile_options(test_radixsort PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_radixsort gtest_main Threads::Threads)
 

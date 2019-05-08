@@ -114,6 +114,18 @@ TEST(Trie, CanAddElements)
     EXPECT_EQ(expected, t.size());
 }
 
+TEST(Trie, CanFindElements)
+{
+    otus::trie::RadixTrie<int> t(999);
+    t.add(321);
+    size_t expected = 1;
+    EXPECT_EQ(expected, t.size());
+
+    EXPECT_TRUE(t.find(321));
+    EXPECT_FALSE(t.find(32));
+    EXPECT_FALSE(t.find(322));
+}
+
 /*
 TEST(RadixSort, Trie_Unsorted_Short)
 {
