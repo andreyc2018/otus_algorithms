@@ -1,5 +1,6 @@
 *.mp4
 *.ro
+**/ipch/*
 **/build
 **/build-*
 **/.ipynb_checkpoints
