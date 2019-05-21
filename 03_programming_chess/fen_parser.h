@@ -2,7 +2,7 @@
 
 #include <array>
 #include <string>
-#include <algorithm
+#include <algorithm>
 
 using board_t = std::array<std::array<char, 8>, 8>;
 using char_board_t = std::array<char, 64>;
@@ -15,9 +15,9 @@ class Board
     public:
         Board() 
         {
-            for (size_t l = 0; l < board.size(); ++l) {
-                for (size_t n = 0; n < board[l].size(); ++n) {
-                    board[l][n] = ' ';
+            for (size_t l = 0; l < board_.size(); ++l) {
+                for (size_t n = 0; n < board_[l].size(); ++n) {
+                    board_[l][n] = ' ';
                 }
             }
         }
