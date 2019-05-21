@@ -21,6 +21,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
 
 add_executable(knight_moves knight_moves.cpp ${HEADER_FILES})
 target_compile_options(knight_moves PRIVATE -Wpedantic -Wall -Wextra)
+add_executable(get_knight_moves get_knight_moves.cpp ${HEADER_FILES})
+target_compile_options(get_knight_moves PRIVATE -Wpedantic -Wall -Wextra)
 # target_link_libraries(knight_moves gtest_main Threads::Threads)
 
 include(CPack)
