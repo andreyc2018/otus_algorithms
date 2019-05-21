@@ -19,14 +19,21 @@ board_t get_knight_moves(const board_t& knight)
     return res;
 }
 
-int main(int argc, char** argv)
+void get_print_result(size_t pos)
 {
-    int pos = (argc > 1)? stoi(argv[1]) : 0;
-
+    if (pos > 63) {
+        cout << 0 << "\n" << 0 << "\n";
+        return;
+    }
     board_t knight(0);
     knight.set(pos);
-    knight = get_knight_moves(knight); 
+    knight = get_knight_moves(knight);
     cout << knight.count() << "\n" << knight.to_ulong() << "\n";
+}
 
+int main(int argc, char** argv)
+{
+    size_t pos = (argc > 1)? stoul(argv[1]) : 0;
+    get_print_result(pos);
     return 0;
 }
