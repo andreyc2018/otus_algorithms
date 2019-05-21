@@ -11,11 +11,12 @@ board_t get_knight_moves(const board_t& knight)
     board_t noGH(0x3F3F3F3F3F3F3F3F);
     board_t noH(0x7F7F7F7F7F7F7F7F);
 
-    // board_t res = 
-    return (noGH & (knight >> 10 | knight <<  6));// |
-                //   (knight >> 17 | knight << 15) |
-                //   (knight >> 15 | knight << 17) |
-                //   (knight >>  6 | knight << 10);
+    board_t res = (noGH & (knight >> 10 | knight <<  6)) |
+                  (noH  & (knight >> 17 | knight << 15)) |
+                  (noA  & (knight >> 15 | knight << 17)) |
+                  (noAB & (knight >>  6 | knight << 10));
+
+    return res;
 }
 
 void print_board(const board_t& board)
