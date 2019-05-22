@@ -60,8 +60,6 @@ void moves(int pos)
 int main(int argc, char** argv)
 {
     int pos = (argc > 1)? stoi(argv[1]) : 0;
-    for (int i = pos; i < 64; ++i) {
-        moves(i);
-    }
+    moves(pos);
     return 0;
 }
