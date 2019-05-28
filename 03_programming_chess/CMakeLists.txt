@@ -19,11 +19,19 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googletest/include
         ${GTEST_DIR}/googlemock/include)
 
-add_executable(knight_moves knight_moves.cpp ${HEADER_FILES})
+add_executable(knight_moves knight_moves.cpp README.md)
 target_compile_options(knight_moves PRIVATE -Wpedantic -Wall -Wextra)
-add_executable(get_knight_moves get_knight_moves.cpp ${HEADER_FILES})
+
+add_executable(get_knight_moves get_knight_moves.cpp)
 target_compile_options(get_knight_moves PRIVATE -Wpedantic -Wall -Wextra)
-# target_link_libraries(knight_moves gtest_main Threads::Threads)
+
+set(HEADER_FILES fen_parser.h)
+add_executable(parse_fen parse_fen.cpp ${HEADER_FILES} Шахматные_тесты-19350-882833.txt)
+target_compile_options(parse_fen PRIVATE -Wpedantic -Wall -Wextra)
+
+add_executable(test_parse_fen test_parse_fen.cpp ${HEADER_FILES})
+target_compile_options(test_parse_fen PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(test_parse_fen gtest_main Threads::Threads)
 
 include(CPack)
 

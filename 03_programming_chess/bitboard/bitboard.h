@@ -12,7 +12,7 @@ public:
     BitBoard() : board_(0) {}
     BitBoard(uint64_t value) : board_(value) {}
 
-    void shift_left(int steps) { board_.; }
+    void shift_left(int steps) { ; }
 
 private:
     bitboard_t board_;

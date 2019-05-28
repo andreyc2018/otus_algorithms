@@ -29,7 +29,7 @@ class Board
 
         void set(char figure, char l, int n)
         {
-            int index = coords_to_index(l, n);
+            auto index = coords_to_index(l, n);
             if (index > -1) {
                 char_board_[index] = figure;
             }
@@ -37,23 +37,23 @@ class Board
 
         char get(char l, int n)
         {
-            int index = coords_to_index(l, n);
+            auto index = coords_to_index(l, n);
             if (index > -1) {
                 return char_board_[index];
             }
             return ' ';
         }
 
-        int coords_to_index(char l, int n)
+        int8_t coords_to_index(char l, int8_t n)
         {
-            int index = (l - 'a') * 8 + (n - 1);
+            int8_t index = (l - 'a') * 8 + (n - 1);
             if (index > 63) {
                 return -1;
             }
             return index;
         }
 
-        std::tuple<char, int> index_to_coords(int index)
+        std::tuple<char, int> index_to_coords(int8_t index)
         {
             char l = (index / 8) + 'a';
             int n = (index % 8) + 1;
