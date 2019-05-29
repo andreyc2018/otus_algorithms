@@ -1,7 +1,9 @@
 #include "fen_parser.h"
+#include <gtest/gtest.h>
 #include <iostream>
 
-int main(int, char**)
+TEST(Board, Init)
 {
-    return 0;
+    Board b;
+    EXPECT_EQ('R', b.get('a', 1));
 }
