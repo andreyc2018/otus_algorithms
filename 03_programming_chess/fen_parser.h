@@ -48,6 +48,31 @@ public:
     using castling_t       = std::bitset<4>;
     using halfmove_clock_t = uint8_t;
     using move_counter_t   = uint64_t;
+    using col_t            = char;
+    using row_t            = uint8_t;
+    using index_t          = int8_t;
+    struct coords_t
+    {
+        coords_t() = default;
+        coords_t(col_t c, row_t r)
+          : l(c)
+          , n(r)
+        {}
+
+        void clear() { set(' ', static_cast<row_t>(0)); }
+        void set(char c, char r) { set(c, static_cast<row_t>(r - '0')); }
+        void set(col_t c, row_t r)
+        {
+            l = c;
+            n = r;
+        }
+
+        operator bool() const { return l != ' ' && n != 0; }
+
+        col_t l = ' ';
+        row_t n = 0;
+    };
+
     enum castling_side_t
     {
         WhiteKing  = 0,
@@ -64,18 +89,19 @@ public:
     Board();
     Board(const char* fen);
 
-    void    set(piece_t piece, char l, uint8_t n);
-    piece_t get(char l, uint8_t n);
+    void    set(piece_t piece, col_t l, row_t n);
+    piece_t get(col_t l, row_t n);
 
 private:
     board_t          char_board_;
     color_t          active_color_;
     castling_t       castling_;
+    coords_t         en_passant_;
     halfmove_clock_t halfmove_;
     move_counter_t   move_counter_;
 
-    int8_t                coords_to_index(char l, int8_t n);
-    std::tuple<char, int> index_to_coords(int8_t index);
+    index_t  coords_to_index(col_t l, row_t n);
+    coords_t index_to_coords(index_t index);
 
     void        fen_to_board(const std::string& fen);
     std::string board_to_fen(const board_t& board);
