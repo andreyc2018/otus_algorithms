@@ -26,12 +26,16 @@ add_executable(get_knight_moves get_knight_moves.cpp)
 target_compile_options(get_knight_moves PRIVATE -Wpedantic -Wall -Wextra)
 
 set(HEADER_FILES fen_parser.h)
+
+add_library(fen_parser STATIC fen_parser.cpp ${HEADER_FILES})
+
 add_executable(parse_fen parse_fen.cpp ${HEADER_FILES} Шахматные_тесты-19350-882833.txt)
 target_compile_options(parse_fen PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(parse_fen fen_parser)
 
 add_executable(test_parse_fen test_parse_fen.cpp ${HEADER_FILES})
 target_compile_options(test_parse_fen PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_parse_fen gtest_main Threads::Threads)
+target_link_libraries(test_parse_fen fen_parser gtest_main Threads::Threads)
 
 include(CPack)
 
