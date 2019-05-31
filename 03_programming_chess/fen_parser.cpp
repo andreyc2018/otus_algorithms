@@ -27,8 +27,6 @@ Board::Board()
 void Board::set(Board::piece_t piece, col_t l, row_t n)
 {
     auto index = coords_to_index(l, n);
-    std::cerr << "l = " << l - 'a' << ", n = " << static_cast<int>(n)
-              << ", index = " << static_cast<int>(index) << "\n";
     if (index > -1) {
         char_board_[index] = piece;
     }
