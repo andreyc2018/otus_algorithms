@@ -14,14 +14,7 @@ Board::Board()
   , halfmove_(0)
   , move_counter_(0)
 {
-    fen_to_board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    for (const auto& c : char_board_) {
-        if (c == 0)
-            std::cout << "0x00 ";
-        else
-            std::cout << c << ' ';
-    }
-    std::cout << '\n';
+    fen_to_board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 0");
 }
 
 void Board::set(Board::piece_t piece, col_t l, row_t n)
@@ -81,7 +74,6 @@ void Board::fen_to_board(const std::string& fen)
     col_t l = 'h';
     row_t n = 1;
     for (size_t i = 0; i < parts[PiecePlacement].size(); ++i) {
-        std::cerr << parts[PiecePlacement][i] << "\n";
         if (parts[PiecePlacement][i] != '/') {
             set(parts[PiecePlacement][i], l, n);
             ++n;
@@ -90,7 +82,6 @@ void Board::fen_to_board(const std::string& fen)
             n = 1;
         }
     }
-    std::cerr << "\n";
 
     if (parts[ActiveColor][0] == 'w') {
         active_color_ = White;
@@ -123,3 +114,7 @@ void Board::fen_to_board(const std::string& fen)
     halfmove_     = static_cast<halfmove_clock_t>(parts[HalfmoveClock][0] - '0');
     move_counter_ = static_cast<move_counter_t>(parts[FullmoveNumber][0] - '0');
 }
+
+std::string Board::board_to_fen() const { return ""; }
+
+void Board::move(const std::string& move) {}

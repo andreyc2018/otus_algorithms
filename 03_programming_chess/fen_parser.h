@@ -51,6 +51,7 @@ public:
     using col_t            = char;
     using row_t            = uint8_t;
     using index_t          = int8_t;
+
     struct coords_t
     {
         coords_t() = default;
@@ -89,6 +90,10 @@ public:
     Board();
     Board(const char* fen);
 
+    void        fen_to_board(const std::string& fen);
+    std::string board_to_fen() const;
+
+    void    move(const std::string& move);
     void    set(piece_t piece, col_t l, row_t n);
     piece_t get(col_t l, row_t n);
 
@@ -102,7 +107,4 @@ private:
 
     index_t  coords_to_index(col_t l, row_t n);
     coords_t index_to_coords(index_t index);
-
-    void        fen_to_board(const std::string& fen);
-    std::string board_to_fen(const board_t& board);
 };
