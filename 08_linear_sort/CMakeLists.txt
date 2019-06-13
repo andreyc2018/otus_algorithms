@@ -10,10 +10,10 @@ set(CMAKE_BUILD_TYPE Debug)
 if ($ENV{TRAVIS_BUILD_NUMBER})
     set(BUILD_NUM $ENV{TRAVIS_BUILD_NUMBER})
 else()
-    set(BUILD_NUM 99)
+    set(BUILD_NUM 0)
 endif()
 
-set(homework_VERSION_MAJOR 7)
+set(homework_VERSION_MAJOR 8)
 set(homework_VERSION_MINOR 0)
 set(homework_VERSION_BUILD ${BUILD_NUM})
 
@@ -40,7 +40,7 @@ add_executable(test_countsort test_countsort.cpp countsort.h ${HEADER_FILES})
 target_compile_options(test_countsort PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_countsort gtest_main Threads::Threads)
 
-add_executable(test_radixsort test_radixsort.cpp radixsort.h ${HEADER_FILES} Readme.md)
+add_executable(test_radixsort test_radixsort.cpp radixsort.h ${HEADER_FILES})
 target_compile_options(test_radixsort PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(test_radixsort gtest_main Threads::Threads)
 
