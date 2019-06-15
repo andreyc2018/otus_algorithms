@@ -1,0 +1,38 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  // https://www.40tude.fr/blog/compile-cpp-code-with-vscode-cmake-nmake/
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake Debug",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceRoot}/build"
+      },
+      "command": "cmake",
+      "args": ["..", "-G", "Unix Makefiles", "-DCMAKE_BUILD_TYPE=Debug"]
+    },
+    {
+      "label": "CMake Release",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceRoot}/build"
+      },
+      "command": "cmake",
+      "args": ["..", "-G", "Unix Makefiles", "-DCMAKE_BUILD_TYPE=Release"]
+    },
+    {
+      "label": "Make",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceRoot}/build"
+      },
+      "command": "make",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
