@@ -17,8 +17,10 @@ int hw::AvlTree::balance() const { return (root_ == nullptr) ? 0 : root_->balanc
 
 void hw::AvlTree::rebalance(hw::AvlNode* n)
 {
-    if (n->balance >= -1 || n->balance <= 1) {
-        return;
+    if (n->balance < -1) {
+        // left tree is heavier
+    } else if (n->balance > 1) {
+        // right tree is heavier
     }
 }
 

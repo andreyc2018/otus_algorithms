@@ -13,6 +13,7 @@ struct AvlNode
     int      value   = 0;
     int      height  = -1;
     int      balance = 0;
+    AvlNode* parent  = nullptr;
     AvlNode* left    = nullptr;
     AvlNode* right   = nullptr;
 };
