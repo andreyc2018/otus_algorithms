@@ -1,7 +1,9 @@
 #include "xorcrypt.h"
+#include "key.h"
 #include <gtest/gtest.h>
 
-TEST(XorCrypt, Init)
+TEST(XorCryptKey, Init)
 {
-    EXPECT_TRUE(false);
+    Key k("");
+    EXPECT_EQ('\0', k.next());
 }

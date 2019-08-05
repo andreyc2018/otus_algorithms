@@ -21,12 +21,17 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
 
 set(HEADER_FILES xorcrypt.h)
 
-add_library(xorcrypt STATIC xorcrypt.cpp ${HEADER_FILES} README.md)
+add_library(xorcrypt STATIC xorcrypt.cpp key.cpp ${HEADER_FILES} README.md)
 
-add_executable(xorcrypt-bin xorcrypt_main.cpp ${HEADER_FILES})
-target_compile_options(xorcrypt-bin PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(xorcrypt-bin xorcrypt)
-set_target_properties(xorcrypt-bin PROPERTIES OUTPUT_NAME xorcrypt)
+add_executable(encrypt_xor-bin encrypt_xor_main.cpp ${HEADER_FILES})
+target_compile_options(encrypt_xor-bin PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(encrypt_xor-bin xorcrypt)
+set_target_properties(encrypt_xor-bin PROPERTIES OUTPUT_NAME encrypt_xor)
+
+add_executable(decrypt_xor-bin decrypt_xor_main.cpp ${HEADER_FILES})
+target_compile_options(decrypt_xor-bin PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(decrypt_xor-bin xorcrypt)
+set_target_properties(decrypt_xor-bin PROPERTIES OUTPUT_NAME decrypt_xor)
 
 add_executable(test_xorcrypt test_xorcrypt.cpp ${HEADER_FILES})
 target_compile_options(test_xorcrypt PRIVATE -Wpedantic -Wall -Wextra)
