@@ -1,0 +1,25 @@
+{
+    "files.exclude": {
+        "bin": true,
+        "build": true,
+        "build-*": true,
+        ".vscode/ipch": true,
+        "**/.*.swp": true,
+        "**/*.dSYM": {
+            "when": "$(basename).cpp"
+        },
+        "**/*.user": {
+            "when": "$(basename)"
+        }
+    },
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "array": "cpp",
+        "iterator": "cpp",
+        "vector": "cpp",
+        "queue": "cpp"
+    },
+    "cmake.configureOnOpen": true,
+    "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools"
+}
+
