@@ -19,13 +19,18 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
         ${GTEST_DIR}/googletest/include
         ${GTEST_DIR}/googlemock/include)
 
-set(HEADER_FILES avltree.h)
+set(HEADER_FILES xorcrypt.h)
 
-add_library(avltree STATIC avltree.cpp ${HEADER_FILES} README.md)
+add_library(xorcrypt STATIC xorcrypt.cpp ${HEADER_FILES} README.md)
 
-add_executable(test_avltree test_avltree.cpp ${HEADER_FILES})
-target_compile_options(test_avltree PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_avltree avltree gtest_main Threads::Threads)
+add_executable(xorcrypt-bin xorcrypt_main.cpp ${HEADER_FILES})
+target_compile_options(xorcrypt-bin PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(xorcrypt-bin xorcrypt)
+set_target_properties(xorcrypt-bin PROPERTIES OUTPUT_NAME xorcrypt)
+
+add_executable(test_xorcrypt test_xorcrypt.cpp ${HEADER_FILES})
+target_compile_options(test_xorcrypt PRIVATE -Wpedantic -Wall -Wextra)
+target_link_libraries(test_xorcrypt xorcrypt gtest_main)
 
 include(CPack)
 
@@ -42,4 +47,5 @@ if(EXISTS ${GTEST_DIR}/CMakeLists.txt)
         _install(${ARGN})
     endmacro()
 endif()
+
 

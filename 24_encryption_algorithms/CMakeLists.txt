@@ -7,7 +7,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-project(algorithms-N_lesson_title)
+project(algorithms-24_encryption_algorithms)
 
 find_package(Threads REQUIRED)
 
