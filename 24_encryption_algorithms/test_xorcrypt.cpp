@@ -23,13 +23,16 @@ TEST(Encrypt, Decrypt)
     byte c = a ^ k;
     printf("0x%X ^ 0x%X = 0x%X\n", a, k, c);
     printf("0x%X ^ 0x%X = 0x%X\n", c, k, c ^ k);
+    EXPECT_EQ('h', c ^ k);
 }
 
-TEST(XorEncrypt, Encrypt_Decrypt)
+TEST(Xor, EncryptMsgDecrypt)
 {
-    char a = 'h';
-    char k = 'a';
-    byte c = a ^ k;
-    printf("0x%X ^ 0x%X = 0x%X\n", a, k, c);
-    printf("0x%X ^ 0x%X = 0x%X\n", c, k, c ^ k);
+    std::string key = "strong key";
+    std::string msg = "hidden message";
+
+    auto encrypted = encrypt_xor(msg, key);
+    auto decrypted = decrypt_xor(encrypted, key);
+
+    EXPECT_EQ(msg, decrypted);
 }

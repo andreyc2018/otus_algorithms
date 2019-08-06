@@ -4,8 +4,8 @@
 
 int main(int argc, char* argv[])
 {
-    std::string encrypted_fname = (argc > 1) ? argv[1] : "encrypted.bin";
-    std::string key             = (argc > 2) ? argv[2] : "algorithms";
+    std::string key             = (argc > 1) ? argv[1] : "algorithms";
+    std::string encrypted_fname = (argc > 2) ? argv[2] : "encrypted.bin";
     std::string decrypted_fname = (argc > 3) ? argv[3] : "decrypted.txt";
 
     auto encryped = read_binary(encrypted_fname);
