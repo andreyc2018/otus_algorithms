@@ -1,6 +1,7 @@
 #include "xorcrypt.h"
 #include "key.h"
 #include <fstream>
+#include <iterator>
 
 std::vector<byte> encrypt_xor(const std::string& text, const std::string& key)
 {
