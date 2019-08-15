@@ -11,13 +11,15 @@ project(algorithms-24_encryption_algorithms)
 
 find_package(Threads REQUIRED)
 
-set(COURSE_DIR ${CMAKE_SOURCE_DIR}/..)
-set(GTEST_DIR ${COURSE_DIR}/googletest)
+#set(COURSE_DIR ${CMAKE_SOURCE_DIR}/..)
+#set(GTEST_DIR ${COURSE_DIR}/googletest)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR}
-        ${COURSE_DIR}/include
-        ${GTEST_DIR}/googletest/include
-        ${GTEST_DIR}/googlemock/include)
+#include_directories(${CMAKE_CURRENT_BINARY_DIR}
+#        ${COURSE_DIR}/include)
+#        ${GTEST_DIR}/googletest/include
+#        ${GTEST_DIR}/googlemock/include)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(HEADER_FILES xorcrypt.h)
 
@@ -33,23 +35,23 @@ target_compile_options(decrypt_xor-bin PRIVATE -Wpedantic -Wall -Wextra)
 target_link_libraries(decrypt_xor-bin xorcrypt)
 set_target_properties(decrypt_xor-bin PROPERTIES OUTPUT_NAME decrypt_xor)
 
-add_executable(test_xorcrypt test_xorcrypt.cpp ${HEADER_FILES})
+add_executable(test_xorcrypt test_xorcrypt.cpp catch.hpp ${HEADER_FILES})
 target_compile_options(test_xorcrypt PRIVATE -Wpedantic -Wall -Wextra)
-target_link_libraries(test_xorcrypt xorcrypt gtest_main)
+target_link_libraries(test_xorcrypt xorcrypt)
 
 include(CPack)
 
 # Add googltest
-if(EXISTS ${GTEST_DIR}/CMakeLists.txt)
-    # Replace install() to do-nothing macro.
-    macro(install)
-    endmacro()
-    # Include subproject (or any other CMake code) with "disabled" install().
-    message(STATUS "Adding Google Test framework.")
-    add_subdirectory(${GTEST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/googletest)
-    # Restore original install() behavior.
-    macro(install)
-        _install(${ARGN})
-    endmacro()
-endif()
+#if(EXISTS ${GTEST_DIR}/CMakeLists.txt)
+#    # Replace install() to do-nothing macro.
+#    macro(install)
+#    endmacro()
+#    # Include subproject (or any other CMake code) with "disabled" install().
+#    message(STATUS "Adding Google Test framework.")
+#    add_subdirectory(${GTEST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/googletest)
+#    # Restore original install() behavior.
+#    macro(install)
+#        _install(${ARGN})
+#    endmacro()
+#endif()
 
